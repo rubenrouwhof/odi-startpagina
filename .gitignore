@@ -6,3 +6,6 @@ resources/
 # hoort niet in de repository. Pad-onafhankelijk, zodat een verhuizing van de
 # site-map hem niet alsnog meeneemt.
 anonimisering.yaml
+
+# Lokale npm-cache, hoort niet in de repository.
+.npm-cache/
