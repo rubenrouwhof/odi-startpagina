@@ -11,7 +11,7 @@ params:
   # ellipsis, dus de tekst moet kort blijven.
   statusmelding:
     variant: warning
-    tekst: Proof of concept — geen officiële publicatie van het ODI
+    tekst: Proof of concept — geen officiële publicatie van ODI
   tagline: Rijksorganisatie voor Ontwikkeling, Digitalisering en Innovatie
   description: De startplek voor kennis over digitalisering binnen het ODI. Vind expertises, kennisbronnen en tools op één plek.
 
