@@ -12,6 +12,14 @@
            een wrapper om overslaanbare inhoud en hoort hier niet los. */ -}}
     <nldd-page>
       {{ partial "header.html" . }}
+      {{- with site.Params.statusmelding }}
+        {{- /* Buiten het header-slot, zodat de balk met de pagina meescrollt
+               in plaats van boven de navigatie te blijven plakken. */ -}}
+        <nldd-status-bar
+          variant="{{ .variant | default "warning" }}"
+          text="{{ .tekst }}"
+        ></nldd-status-bar>
+      {{- end }}
       {{- block "main" . }}{{ end -}}
       {{ partial "footer.html" . }}
     </nldd-page>

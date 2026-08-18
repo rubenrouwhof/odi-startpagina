@@ -1,10 +1,17 @@
-baseURL: https://rijksictgilde.github.io/odi-startpagina/
+baseURL: https://rubenrouwhof.github.io/odi-startpagina/
 title: ODI Startpagina
 defaultContentLanguage: nl
 
 params:
   # Eén plek voor de repo-URL, zodat links in de content niet verouderen.
-  repo: https://github.com/RijksICTGilde/odi-startpagina
+  repo: https://github.com/rubenrouwhof/odi-startpagina
+
+  # Deze site is een experimenteerkopie; de balk maakt dat zichtbaar voor
+  # bezoekers. Weglaten laat de balk verdwijnen. De balk is één regel met
+  # ellipsis, dus de tekst moet kort blijven.
+  statusmelding:
+    variant: warning
+    tekst: Proof of concept — geen officiële publicatie van het ODI
   tagline: Rijksorganisatie voor Ontwikkeling, Digitalisering en Innovatie
   description: De startplek voor kennis over digitalisering binnen het ODI. Vind expertises, kennisbronnen en tools op één plek.
 
