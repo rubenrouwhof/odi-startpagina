@@ -31,3 +31,6 @@ tools:
   - naam: ODI Links
     omschrijving: Overige relevante links binnen het ODI.
     url: ""
+  - naam: Apps
+    omschrijving: Handige apps voor dagelijkse werkzaamheden
+    url: ""
