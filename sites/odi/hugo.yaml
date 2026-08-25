@@ -55,6 +55,9 @@ markup:
   goldmark:
     renderer:
       unsafe: true
+#nodig om de # uit de link te halen die bij slug wordt geïnitieerd
+permalinks:
+  expertises: /:slug/ 
 
 # Expertises en Kennisbronnen staan al als blok op de homepage en in de
 # footer; in de balk zouden ze dat dubbelop doen.
