@@ -6,5 +6,17 @@
 # en het collega-overzicht dezelfde taal spreken.
 
 - slug: /ai
-  naam: AI
+  naam: Artificiële Intelligentie
   omschrijving: Kunstmatige intelligentie, generatieve AI en algoritmes.
+- slug: /netwerksamenwerking
+  naam: Netwerksamenwerking
+  omschrijving: nog te bepalen
+- slug: /digitale-weerbaarheid
+  naam: Digitale weerbaarheid
+  omschrijving: nog te bepalen
+- slug: /ambtelijk-en-digitaal-vakmanschap
+  naam: Ambtelijk en digitaal vakmanschap
+  omschrijving: nog te bepalen
+- slug: /innovatieve-en-lerende-overheid
+  naam: Innovatie en lerende overheid
+  omschrijving: nog te bepalen
