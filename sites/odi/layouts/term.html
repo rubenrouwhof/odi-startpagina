@@ -1,8 +1,7 @@
 {{ define "main" }}
 {{- $vocab := hugo.Data.vocabulaire -}}
-{{- $facet := index (partial "facet-namen.html") .Data.Plural -}}
+{{- $facet := .Data.Singular -}}  <!-- Vervangt de partial call -->
 {{- $weergave := index (index $vocab $facet) .Data.Term | default .Data.Term -}}
-
 <nldd-simple-section id="hoofdinhoud">
   <nldd-title size="1">
     <span slot="overline">{{ .Data.Plural | humanize }}</span>
@@ -10,13 +9,11 @@
   </nldd-title>
   <nldd-spacer size="8"></nldd-spacer>
   <nldd-rich-text>
-    <p>{{ len .Pages }} {{ cond (eq (len .Pages) 1) "bron" "bronnen" }}</p>
-  </nldd-rich-text>
-</nldd-simple-section>
-
+    <p>{{ len .Pages }} {{ cond (eq (len .Pages) 1) "opdracht" "opdrachten" }}</p>  <!-- Aangepast: "bron" → "opdracht" -->
+  </nldd-simple-section>
 <nldd-simple-section padding-top="0">
   <nldd-collection layout="grid" item-width="320px">
-    {{- range .Pages.ByTitle -}}{{- partial "bron-kaart.html" . -}}{{- end -}}
+    {{- range .Pages.ByTitle -}}{{- partial "opdracht-kaart.html" . -}}{{- end -}}  <!-- Aangepast: "bron-kaart.html" → "opdracht-kaart.html" -->
   </nldd-collection>
 </nldd-simple-section>
 {{ end }}
