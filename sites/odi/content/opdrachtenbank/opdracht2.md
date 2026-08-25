@@ -8,5 +8,6 @@ odi_thema_values:
   - netwerksamenwerking
 expertises:
   - advies
+  - ai
 ---
 _Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
