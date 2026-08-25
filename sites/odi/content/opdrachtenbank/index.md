@@ -7,8 +7,6 @@ menu: main
 weight: 1
 ---
 
-# Opdrachtenbank
-
 De **Opdrachtenbank** van het **Rijksorganisatie voor Ontwikkeling, Digitalisering en Innovatie (ODI)** is het centrale platform waar je actuele opdrachten, projecten en uitdagingen vindt. Het doel van deze databank is om te leren van elkaar, 
 bij de uitvoering van onze opdrachten. 
 
