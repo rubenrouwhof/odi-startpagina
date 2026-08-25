@@ -1,6 +1,7 @@
 {{ define "main" }}
 {{- $expertises := hugo.Data.expertises -}}
 {{- $bronnen := hugo.Data.bronnen -}}
+{{- $themas := hugo.Data.themas -}}
 
 <nldd-simple-section id="hoofdinhoud">
   <nldd-title size="1">
@@ -34,16 +35,34 @@
     </p>
   </nldd-rich-text>
   <nldd-spacer size="16"></nldd-spacer>
-  {{- /* Gelijkwaardige, korte items: een lijst leest hier rustiger dan een
-         raster van kaarten met veel witruimte. */ -}}
   <nldd-list variant="box" accessible-label="Expertises binnen ODI">
     {{- range $expertises -}}
-<nldd-list-item
-  size="md"
-  type="link"
-  href="{{ (printf "/expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
-  <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
-</nldd-list-item>
+    <nldd-list-item
+      size="md"
+      type="link"
+      href="{{ (printf "/expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+      <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
+    </nldd-list-item>
+    {{- end -}}
+  </nldd-list>
+
+  <!-- Thema-sectie (zelfde structuur als Expertises) -->
+  <nldd-spacer size="24"></nldd-spacer>
+  <nldd-title size="2" slot="header">
+    <h2>Thema</h2>
+  </nldd-title>
+  <nldd-rich-text>
+    <p>De thema's waar ODI mee werkt.</p>
+  </nldd-rich-text>
+  <nldd-spacer size="16"></nldd-spacer>
+  <nldd-list variant="box" accessible-label="Thema's binnen ODI">
+    {{- range $themas -}}
+    <nldd-list-item
+      size="md"
+      type="link"
+      href="{{ (printf "/themas/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+      <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
+    </nldd-list-item>
     {{- end -}}
   </nldd-list>
 </nldd-simple-section>
