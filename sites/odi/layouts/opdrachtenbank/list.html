@@ -68,7 +68,7 @@
       <nldd-inline-dialog icon="search" text="Geen opdrachten gevonden" supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."></nldd-inline-dialog>
     </div>
     <div class="opdracht-raster" id="opdrachten-lijst">
-      {{- range $opdrachten.ByTitle -}}
+      {{- range $opdrachten.ByTitle }}
     <div
       class="opdracht-item"
       data-tekst="{{ lower (printf "%s %s %s" .Title (default "" .Params.description) (default "" .Params.eigenaar)) }}"
