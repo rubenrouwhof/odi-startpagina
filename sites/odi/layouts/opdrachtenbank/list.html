@@ -76,7 +76,7 @@
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
         data-odi-themas="{{ delimit (.Params.odi-themas | default slice) " " }}"
       >
-        {{- partial "opdracht-kaart.html" . -}}
+        {{- partial "opdracht-kaart.html" . }}
       </div>
       {{- end -}}
     </div>
