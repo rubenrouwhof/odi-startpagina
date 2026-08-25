@@ -3,14 +3,11 @@
 {{- $vocab := hugo.Data.vocabulaire -}}
 {{- /* Selecteer alleen opdracht-pagina's in deze sectie */ -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
-
-{{- /* Facetgroepen voor filtering (pas aan naar wens) */ -}}
+{{- /* Facetgroepen voor filtering (alleen Expertise en ODI-thema) */ -}}
 {{- $facetGroepen := slice
-  (dict "meervoud" "soorten" "enkelvoud" "soort" "label" "Soort")
-  (dict "meervoud" "themas" "enkelvoud" "thema" "label" "Thema")
-  (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "odi-thema")
+  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
+  (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
-
 <nldd-sidebar-section
   id="hoofdinhoud"
   width="1440px"
@@ -29,7 +26,6 @@
         text="Wis alle filters"
         hidden
       ></nldd-button>
-
       {{- /* Dynamische filtergroepen */ -}}
       {{- range $groep := $facetGroepen -}}
         {{- $termen := index site.Taxonomies $groep.meervoud -}}
@@ -54,7 +50,6 @@
       {{- end -}}
     </nldd-container>
   </nldd-container>
-
   {{- /* --- HOOFDKOLOM (Inhoud) --- */ -}}
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
@@ -63,7 +58,6 @@
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{ end }}
     <nldd-spacer size="16"></nldd-spacer>
-
     {{- /* Toolbar met zoeken en acties */ -}}
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
@@ -102,13 +96,11 @@
         ></nldd-menu-item>
       </nldd-toolbar-item>
     </nldd-toolbar>
-
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
     </nldd-rich-text>
     <nldd-spacer size="16"></nldd-spacer>
-
     {{- /* "Geen resultaten"-melding */ -}}
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog
@@ -117,17 +109,14 @@
         supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."
       ></nldd-inline-dialog>
     </div>
-
     {{- /* Raster met opdrachtkaarten */ -}}
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
       <div
         class="opdracht-item"
         data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
-        data-soorten="{{ delimit (.Params.soorten | default slice) " " }}"
-        data-themas="{{ delimit (.Params.themas | default slice) " " }}"
-        data-status="{{ .Params.status | default "" }}"
-        data-prioriteiten="{{ .Params.prioriteit | default "" }}"
+        data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
+        data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
       >
         {{- partial "opdracht-kaart.html" . -}}
       </div>
