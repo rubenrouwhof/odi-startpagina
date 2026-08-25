@@ -22,20 +22,23 @@
         <nldd-spacer size="4"></nldd-spacer>
         <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
           {{- range $term, $paginas := $termen -}}
-          <nldd-list-item
-            checkbox
-            data-facet="{{ $groep.meervoud }}"
-            data-value="{{ $term }}"
-            class="filter-item"
-          >
-            <nldd-cell>
-              <nldd-checkbox decorative></nldd-checkbox>
-            </nldd-cell>
-            <nldd-spacer-cell size="8"></nldd-spacer-cell>
-            <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
-            <nldd-spacer-cell size="8"></nldd-spacer-cell>
-            <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len (where $paginas "Section" "opdrachtenbank") }}"></nldd-text-cell>
-          </nldd-list-item>
+            {{- $opdrachtPaginas := where $paginas "Section" "opdrachtenbank" -}}
+            {{- if $opdrachtPaginas -}}
+            <nldd-list-item
+              checkbox
+              data-facet="{{ $groep.meervoud }}"
+              data-value="{{ $term }}"
+              class="filter-item"
+            >
+              <nldd-cell>
+                <nldd-checkbox decorative></nldd-checkbox>
+              </nldd-cell>
+              <nldd-spacer-cell size="8"></nldd-spacer-cell>
+              <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
+              <nldd-spacer-cell size="8"></nldd-spacer-cell>
+              <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
+            </nldd-list-item>
+            {{- end -}}
           {{- end -}}
         </nldd-list>
         {{- end -}}
@@ -77,7 +80,7 @@
         class="opdracht-item"
         data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-        data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
+        data-odi-themas="{{ delimit (.Params.odi-themas | default slice) " " }}"
       >
         {{- partial "opdracht-kaart.html" . -}}
       </div>
@@ -149,9 +152,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initieel filteren (voor het geval er URL-parameters zijn)
+  // Initieel filteren
   filterOpdrachten();
 });
 </script>
-
 {{ end }}
