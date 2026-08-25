@@ -6,7 +6,7 @@
 {{- /* Facetgroepen voor filtering (alleen Expertise en ODI-thema) */ -}}
 {{- $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
-  (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
+  (dict "meervoud" "odi_themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
 <nldd-sidebar-section
   id="hoofdinhoud"
@@ -35,14 +35,14 @@
         <nldd-spacer size="4"></nldd-spacer>
         <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
           {{- range $term, $paginas := $termen -}}
-          <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
+          <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}" unchecked>
             <nldd-cell>
               <nldd-checkbox decorative></nldd-checkbox>
             </nldd-cell>
             <nldd-spacer-cell size="8"></nldd-spacer-cell>
             <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
             <nldd-spacer-cell size="8"></nldd-spacer-cell>
-            <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $paginas }}"></nldd-text-cell>
+            <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len (where $paginas "Section" "opdrachtenbank") }}"></nldd-text-cell>
           </nldd-list-item>
           {{- end -}}
         </nldd-list>
@@ -50,6 +50,7 @@
       {{- end -}}
     </nldd-container>
   </nldd-container>
+
   {{- /* --- HOOFDKOLOM (Inhoud) --- */ -}}
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
@@ -58,6 +59,7 @@
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{ end }}
     <nldd-spacer size="16"></nldd-spacer>
+
     {{- /* Toolbar met zoeken en acties */ -}}
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
@@ -96,11 +98,13 @@
         ></nldd-menu-item>
       </nldd-toolbar-item>
     </nldd-toolbar>
+
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
     </nldd-rich-text>
     <nldd-spacer size="16"></nldd-spacer>
+
     {{- /* "Geen resultaten"-melding */ -}}
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog
@@ -109,6 +113,7 @@
         supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."
       ></nldd-inline-dialog>
     </div>
+
     {{- /* Raster met opdrachtkaarten */ -}}
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
@@ -116,12 +121,22 @@
         class="opdracht-item"
         data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-        data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
+        data-odi_themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
       >
         {{- partial "opdracht-kaart.html" . -}}
       </div>
       {{- end -}}
     </div>
+
+    {{- /* Reset checkboxes bij laden */ -}}
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('nldd-list-item[checkbox] nldd-checkbox');
+        checkboxes.forEach(checkbox => {
+          checkbox.checked = false;
+        });
+      });
+    </script>
   </div>
 </nldd-sidebar-section>
 {{ end }}
