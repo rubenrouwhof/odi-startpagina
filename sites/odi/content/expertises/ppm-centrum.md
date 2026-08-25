@@ -1,5 +1,5 @@
 ---
-title: PPM centrum
+title: ppm-centrum
 ---
 Beschrijving PPM Centrum
 
