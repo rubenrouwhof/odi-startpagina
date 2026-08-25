@@ -41,7 +41,7 @@
     <nldd-list-item
       size="md"
       type="link"
-      href="{{ (printf "/expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+      href="{{ (printf "expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
       <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
     </nldd-list-item>
     {{- end -}}
@@ -62,7 +62,7 @@
     <nldd-list-item
       size="md"
       type="link"
-      href="{{ (printf "/themas/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+      href="{{ (printf "themas/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
       <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
     </nldd-list-item>
     {{- end -}}
