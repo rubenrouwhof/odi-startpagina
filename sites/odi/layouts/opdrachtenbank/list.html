@@ -3,10 +3,10 @@
 {{- $vocab := hugo.Data.vocabulaire -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 
-{{/* Definieer filtergroepen: gebruik ENKELVOUDIGE sleutels uit hugo.yaml */}}
+{{/* Definieer filtergroepen ZONDER haakjes rond dict */}}
 {{- $facetGroepen := slice
-  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied")
-  (dict "meervoud" "odi_thema_values" "enkelvoud" "odi-thema" "label" "ODI-thema")
+  dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied"
+  dict "meervoud" "odi_thema_values" "enkelvoud" "odi-thema" "label" "ODI-thema"
 }}
 
 <nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
@@ -19,7 +19,6 @@
 
       {{/* Loop door filtergroepen */}}
       {{- range $groep := $facetGroepen -}}
-        {{/* Haal taxonomie op met ENKELVOUDIGE sleutel (expertise, odi-thema) */}}
         {{- $termen := site.Taxonomies[$groep.enkelvoud] -}}
         {{- if $termen -}}
           <nldd-spacer size="24"></nldd-spacer>
