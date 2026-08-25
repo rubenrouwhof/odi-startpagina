@@ -2,16 +2,26 @@
 {{- .Scratch.Add "paginaScripts" (slice "js/opdrachten-filter.js") -}}
 {{- $vocab := .Site.Data.vocabulaire -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
-{{- $facetGroepen := slice (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied") -}}
 
-<nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
+<nldd-sidebar-section
+  id="hoofdinhoud"
+  width="1440px"
+  sidebar-label="Filteren"
+  translations='{"components.sidebar-section.sheet-dismiss-action": "Klaar"}'
+>
   <nldd-container slot="sidebar" padding="16">
     <nldd-container padding="0">
       <nldd-title size="6" class="filter-kop"><h2>Filteren</h2></nldd-title>
       <nldd-spacer size="8"></nldd-spacer>
-      <nldd-button id="filters-wissen" variant="neutral-transparent" size="sm" text="Wis alle filters" hidden></nldd-button>
+      <nldd-button
+        id="filters-wissen"
+        variant="neutral-transparent"
+        size="sm"
+        text="Wis alle filters"
+        hidden
+      ></nldd-button>
 
-      {{- /* Alleen expertises */ -}}
+      {{- /* Alleen expertises (zoals in je originele code) */ -}}
       {{- $termen := index .Site.Taxonomies "expertises" -}}
       {{- if $termen -}}
         <nldd-spacer size="24"></nldd-spacer>
@@ -21,14 +31,9 @@
           {{- range $term, $paginas := $termen -}}
             {{- $opdrachtPaginas := where $paginas "Section" "opdrachtenbank" -}}
             {{- if $opdrachtPaginas -}}
-              <nldd-list-item
-                checkbox
-                data-facet="expertises"
-                data-value="{{ $term }}"
-                data-checked="false"
-              >
+              <nldd-list-item checkbox data-facet="expertises" data-value="{{ $term }}">
                 <nldd-cell>
-                  <nldd-checkbox decorative checked="false"></nldd-checkbox>
+                  <nldd-checkbox decorative></nldd-checkbox> {{/* Geen checked="false" meer */}}
                 </nldd-cell>
                 <nldd-spacer-cell size="8"></nldd-spacer-cell>
                 <nldd-text-cell text="{{ index (index $vocab "expertise") $term | default $term }}"></nldd-text-cell>
@@ -51,22 +56,39 @@
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{ end }}
     <nldd-spacer size="16"></nldd-spacer>
+
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
-        <nldd-search-field id="opdrachten-zoek" accessible-label="Zoek in de opdrachten" placeholder="Zoek op titel, beschrijving of eigenaar"></nldd-search-field>
+        <nldd-search-field
+          id="opdrachten-zoek"
+          accessible-label="Zoek in de opdrachten"
+          placeholder="Zoek op titel, beschrijving of eigenaar"
+        ></nldd-search-field>
       </nldd-toolbar-item>
       <nldd-toolbar-item id="filter-item" slot="end" priority="2">
-        <nldd-button id="filters-openen" variant="secondary" start-icon="list-decreasing-lines" text="Filteren"></nldd-button>
+        <nldd-button
+          id="filters-openen"
+          variant="secondary"
+          start-icon="list-decreasing-lines"
+          text="Filteren"
+        ></nldd-button>
       </nldd-toolbar-item>
     </nldd-toolbar>
+
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
     </nldd-rich-text>
     <nldd-spacer size="16"></nldd-spacer>
+
     <div id="geen-resultaten" class="geen-resultaten" hidden>
-      <nldd-inline-dialog icon="search" text="Geen opdrachten gevonden" supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."></nldd-inline-dialog>
+      <nldd-inline-dialog
+        icon="search"
+        text="Geen opdrachten gevonden"
+        supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."
+      ></nldd-inline-dialog>
     </div>
+
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
         <div
