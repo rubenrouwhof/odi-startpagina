@@ -32,17 +32,19 @@
           <nldd-spacer size="4"></nldd-spacer>
           <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
             {{- range $term, $paginas := $termen -}}
-              {{- $opdrachtPaginas := where $paginas "Section" "opdrachtenbank" -}}
-              {{- if $opdrachtPaginas -}}
-                <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
-                  <nldd-cell>
-                    <nldd-checkbox decorative></nldd-checkbox>
-                  </nldd-cell>
-                  <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                  <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
-                  <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                  <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
-                </nldd-list-item>
+            {{- /* $paginas is AL de lijst met pagina's die deze taxonomie-term hebben */ -}}
+            {{- /* Filter alleen als je zeker wilt weten dat ze in de sectie "opdrachtenbank" zitten */ -}}
+            {{- $opdrachtPaginas := where $paginas "Section" "==" "opdrachtenbank" -}}
+            {{- if $opdrachtPaginas -}}
+              <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
+                <nldd-cell>
+                  <nldd-checkbox decorative></nldd-checkbox>
+                </nldd-cell>
+                <nldd-spacer-cell size="8"></nldd-spacer-cell>
+                <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
+                <nldd-spacer-cell size="8"></nldd-spacer-cell>
+                <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
+              </nldd-list-item>
               {{- end -}}
             {{- end -}}
           </nldd-list>
