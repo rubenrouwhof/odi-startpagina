@@ -77,7 +77,7 @@
         class="opdracht-item"
         data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-        data-odi-themas="{{ delimit (.Params.odi-themas | default slice) " " }}"
+        data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
       >
         {{- partial "opdracht-kaart.html" . -}}
       </div>
