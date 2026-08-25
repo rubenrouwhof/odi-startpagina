@@ -1,32 +1,19 @@
 {{ define "main" }}
-{{- .Scratch.Add "paginaScripts" (slice "js/opdrachten-filter.js") -}}
 {{- $vocab := hugo.Data.vocabulaire -}}
-{{- /* Selecteer alleen opdracht-pagina's in deze sectie */ -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
-{{- /* Facetgroepen voor filtering (alleen Expertise en ODI-thema) */ -}}
 {{- $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
-  (dict "meervoud" "odi_themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
+  (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
-<nldd-sidebar-section
-  id="hoofdinhoud"
-  width="1440px"
-  sidebar-label="Filteren"
-  translations='{"components.sidebar-section.sheet-dismiss-action": "Klaar"}'
->
-  {{- /* --- SIDEBAR (Filters) --- */ -}}
+
+<nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
+  <!-- SIDEBAR (Filters) -->
   <nldd-container slot="sidebar" padding="16">
     <nldd-container padding="0">
       <nldd-title size="6" class="filter-kop"><h2>Filteren</h2></nldd-title>
       <nldd-spacer size="8"></nldd-spacer>
-      <nldd-button
-        id="filters-wissen"
-        variant="neutral-transparent"
-        size="sm"
-        text="Wis alle filters"
-        hidden
-      ></nldd-button>
-      {{- /* Dynamische filtergroepen */ -}}
+      <nldd-button id="filters-wissen" variant="neutral-transparent" size="sm" text="Wis alle filters" hidden></nldd-button>
+
       {{- range $groep := $facetGroepen -}}
         {{- $termen := index site.Taxonomies $groep.meervoud -}}
         {{- if $termen -}}
@@ -35,7 +22,12 @@
         <nldd-spacer size="4"></nldd-spacer>
         <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
           {{- range $term, $paginas := $termen -}}
-          <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}" unchecked>
+          <nldd-list-item
+            checkbox
+            data-facet="{{ $groep.meervoud }}"
+            data-value="{{ $term }}"
+            class="filter-item"
+          >
             <nldd-cell>
               <nldd-checkbox decorative></nldd-checkbox>
             </nldd-cell>
@@ -51,7 +43,7 @@
     </nldd-container>
   </nldd-container>
 
-  {{- /* --- HOOFDKOLOM (Inhoud) --- */ -}}
+  <!-- HOOFDKOLOM (Inhoud) -->
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
     {{ with .Params.intro }}
@@ -60,83 +52,106 @@
     {{ end }}
     <nldd-spacer size="16"></nldd-spacer>
 
-    {{- /* Toolbar met zoeken en acties */ -}}
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
-        <nldd-search-field
-          id="opdrachten-zoek"
-          accessible-label="Zoek in de opdrachten"
-          placeholder="Zoek op titel, beschrijving of eigenaar"
-        ></nldd-search-field>
+        <nldd-search-field id="opdrachten-zoek" accessible-label="Zoek in de opdrachten" placeholder="Zoek op titel, beschrijving of eigenaar"></nldd-search-field>
       </nldd-toolbar-item>
       <nldd-toolbar-item id="filter-item" slot="end" priority="2">
-        <nldd-button
-          id="filters-openen"
-          variant="secondary"
-          start-icon="list-decreasing-lines"
-          text="Filteren"
-        ></nldd-button>
-        <nldd-menu-item
-          slot="overflow"
-          id="filters-openen-menu"
-          text="Filteren"
-          icon="list-decreasing-lines"
-        ></nldd-menu-item>
-      </nldd-toolbar-item>
-      <nldd-toolbar-item slot="end" priority="1">
-        <nldd-button
-          variant="secondary"
-          start-icon="plus"
-          href="{{ "opdrachtenbank/toevoegen/" | relURL }}"
-          text="Opdracht toevoegen"
-        ></nldd-button>
-        <nldd-menu-item
-          slot="overflow"
-          icon="plus"
-          href="{{ "opdrachtenbank/toevoegen/" | relURL }}"
-          text="Opdracht toevoegen"
-        ></nldd-menu-item>
+        <nldd-button id="filters-openen" variant="secondary" start-icon="list-decreasing-lines" text="Filteren"></nldd-button>
       </nldd-toolbar-item>
     </nldd-toolbar>
 
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
-    </nldd-rich-text>
+    </nldd-spacer>
     <nldd-spacer size="16"></nldd-spacer>
 
-    {{- /* "Geen resultaten"-melding */ -}}
     <div id="geen-resultaten" class="geen-resultaten" hidden>
-      <nldd-inline-dialog
-        icon="search"
-        text="Geen opdrachten gevonden"
-        supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."
-      ></nldd-inline-dialog>
+      <nldd-inline-dialog icon="search" text="Geen opdrachten gevonden" supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."></nldd-inline-dialog>
     </div>
 
-    {{- /* Raster met opdrachtkaarten */ -}}
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
       <div
         class="opdracht-item"
         data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-        data-odi_themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
+        data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
       >
         {{- partial "opdracht-kaart.html" . -}}
       </div>
       {{- end -}}
     </div>
-
-    {{- /* Reset checkboxes bij laden */ -}}
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const checkboxes = document.querySelectorAll('nldd-list-item[checkbox] nldd-checkbox');
-        checkboxes.forEach(checkbox => {
-          checkbox.checked = false;
-        });
-      });
-    </script>
   </div>
 </nldd-sidebar-section>
+
+<!-- Simpele filtering zonder extern JS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const filterItems = document.querySelectorAll('.filter-item');
+  const opdrachten = document.querySelectorAll('.opdracht-item');
+  const zichtbaarAantal = document.getElementById('zichtbaar-aantal');
+  const geenResultaten = document.getElementById('geen-resultaten');
+  const filtersWissenKnop = document.getElementById('filters-wissen');
+
+  // Filterfunctie
+  function filterOpdrachten() {
+    const actieveFilters = {};
+    filterItems.forEach(item => {
+      const checkbox = item.querySelector('nldd-checkbox');
+      if (checkbox && checkbox.checked) {
+        const facet = item.dataset.facet;
+        const value = item.dataset.value;
+        if (!actieveFilters[facet]) actieveFilters[facet] = [];
+        actieveFilters[facet].push(value);
+      }
+    });
+
+    let zichtbaarCount = 0;
+    opdrachten.forEach(opdracht => {
+      let match = true;
+      for (const [facet, values] of Object.entries(actieveFilters)) {
+        const opdrachtValues = opdracht.dataset[facet] ? opdracht.dataset[facet].split(' ') : [];
+        if (!values.some(v => opdrachtValues.includes(v))) {
+          match = false;
+          break;
+        }
+      }
+      opdracht.style.display = match ? '' : 'none';
+      if (match) zichtbaarCount++;
+    });
+
+    zichtbaarAantal.textContent = zichtbaarCount;
+    geenResultaten.hidden = zichtbaarCount > 0;
+    filtersWissenKnop.hidden = Object.keys(actieveFilters).length === 0;
+  }
+
+  // Klik op filter-items
+  filterItems.forEach(item => {
+    item.addEventListener('click', function(e) {
+      const checkbox = this.querySelector('nldd-checkbox');
+      if (checkbox) {
+        checkbox.checked = !checkbox.checked;
+        filterOpdrachten();
+      }
+    });
+  });
+
+  // Wis alle filters
+  if (filtersWissenKnop) {
+    filtersWissenKnop.addEventListener('click', function() {
+      filterItems.forEach(item => {
+        const checkbox = item.querySelector('nldd-checkbox');
+        if (checkbox) checkbox.checked = false;
+      });
+      filterOpdrachten();
+    });
+  }
+
+  // Initieel filteren (voor het geval er URL-parameters zijn)
+  filterOpdrachten();
+});
+</script>
+
 {{ end }}
