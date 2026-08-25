@@ -7,7 +7,7 @@ eigenaar: Interimpool Digitalisering
 odi_thema_values:
   - netwerksamenwerking
 expertises:
-  - ppmCentrum
+  - PPM Centrum
   - advies
 ---
 _Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
