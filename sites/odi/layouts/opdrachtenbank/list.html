@@ -69,12 +69,12 @@
     </div>
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
-      <div
-        class="opdracht-item"
-        data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
-        data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-        data-odi-themas="{{ delimit (.Params.odi-themas | default slice) " " }}"
-      >
+    <div
+      class="opdracht-item"
+      data-tekst="{{ lower (printf "%s %s %s" .Title (default "" .Params.description) (default "" .Params.eigenaar)) }}"
+      data-expertises="{{ delimit (default slice .Params.expertises) " " }}"
+      data-odi-themas="{{ delimit (default slice .Params.odi-themas) " " }}"
+    >
         {{- partial "opdracht-kaart.html" . }}
       </div>
       {{- end -}}
