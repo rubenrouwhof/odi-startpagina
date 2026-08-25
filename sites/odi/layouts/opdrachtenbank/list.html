@@ -1,7 +1,7 @@
 {{ block "main" . }}
-{{- $vocab := site.Data.vocabulaire -}}
-{{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
-{{- $facetGroepen := slice
+{{ $vocab := site.Data.vocabulaire }}
+{{ $opdrachten := where .Pages "Section" "opdrachtenbank" }}
+{{ $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
   (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
 }}
@@ -95,6 +95,7 @@
 
 <!-- Simpele filtering zonder extern JS -->
 <script>
+//<![CDATA[
 document.addEventListener('DOMContentLoaded', function() {
   const filterItems = document.querySelectorAll('.filter-item');
   const opdrachten = document.querySelectorAll('.opdracht-item');
@@ -102,7 +103,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const geenResultaten = document.getElementById('geen-resultaten');
   const filtersWissenKnop = document.getElementById('filters-wissen');
 
-  // Filterfunctie
   function filterOpdrachten() {
     const actieveFilters = {};
     filterItems.forEach(item => {
@@ -134,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function() {
     filtersWissenKnop.hidden = Object.keys(actieveFilters).length === 0;
   }
 
-  // Klik op filter-items
   filterItems.forEach(item => {
     item.addEventListener('click', function(e) {
       const checkbox = this.querySelector('nldd-checkbox');
@@ -145,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Wis alle filters
   if (filtersWissenKnop) {
     filtersWissenKnop.addEventListener('click', function() {
       filterItems.forEach(item => {
@@ -156,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Initieel filteren
   filterOpdrachten();
 });
+//]]>
 </script>
 {{ end }}
