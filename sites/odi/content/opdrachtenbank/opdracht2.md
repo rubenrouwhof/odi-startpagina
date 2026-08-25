@@ -6,7 +6,7 @@ date: 2025-06-03
 eigenaar: Interimpool Digitalisering
 odi_themas:
   - netwerksamenwerking
-expertise:
+expertises:
   - advies
 ---
 _Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
