@@ -1,23 +1,19 @@
 ---
-title: Opdracht1
-description: Voorbeeld van een werkpakket voor agile projectmanagement binnen het ODI.  # <-- TOEGEVOEGD
-slug: werkpakket-voorbeeld
-date: 2025-06-03
-eigenaar: Interimpool Digitalisering
-soorten:
-  - sjabloon
-themas:  # <-- TOEGEVOEGD (moet overeenkomen met vocabulaire.yaml)
-  - agile
-  - projectmanagement
-doelgroepen:
-  - projectmanager
-fases:
-  - ontwerp
-  - voorbereiding
-  - realisatie
-  - agile-iteratie
-  - agile-release
-expertises:
-  - agile-project-programma-en-portfoliomanagement
+title: Opdrachtenbank
+description: |
+  Ontdek en neem deel aan opdrachten binnen het ODI. Hier vind je actuele projecten,
+  uitdagingen en mogelijkheden om bij te dragen aan digitalisering en innovatie.
+menu: main
+weight: 1
 ---
-_Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
+
+# Opdrachtenbank
+
+De **Opdrachtenbank** van het **Rijksorganisatie voor Ontwikkeling, Digitalisering en Innovatie (ODI)** is het centrale platform waar je actuele opdrachten, projecten en uitdagingen vindt. Het doel van deze databank is om te leren van elkaar, 
+bij de uitvoering van onze opdrachten. 
+
+---
+## Soorten opdrachten
+
+In de Opdrachtenbank vind je verschillende uitgevoerde opdrachten - waarmee het doel vooral is de geleerde lessen te delen, zodat bij nieuwe opdrachten deze kennis kan worden ingezet. Tevens kan het inspiratie doen bij het uitvoeren van 
+nieuwe opdrachten.
