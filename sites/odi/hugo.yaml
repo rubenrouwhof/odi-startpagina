@@ -66,12 +66,13 @@ menus:
     - name: Kennisbank
       pageRef: /kennisbank
       weight: 2
-    - name: Bijdragen
-      pageRef: /kennisbank/bijdragen
-      weight: 3
     - name: Opdrachtenbank
       pageRef: /opdrachtenbank
+      weight: 3
+    - name: Bijdragen
+      pageRef: /kennisbank/bijdragen
       weight: 4
+
 
   footer-links:
     - name: Expertises
