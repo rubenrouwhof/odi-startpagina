@@ -44,6 +44,7 @@ taxonomies:
   fase: fases
   thema: themas
   odi-thema: odi-themas
+  expertise: expertises 
 
 enableRobotsTXT: true
 
