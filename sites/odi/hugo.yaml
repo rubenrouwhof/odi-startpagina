@@ -69,6 +69,9 @@ menus:
     - name: Bijdragen
       pageRef: /kennisbank/bijdragen
       weight: 3
+    - name: Opdrachtenbank
+      pageRef: /opdrachtenbank
+      weight: 4
 
   footer-links:
     - name: Expertises
