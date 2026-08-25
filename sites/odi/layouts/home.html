@@ -38,7 +38,7 @@
          raster van kaarten met veel witruimte. */ -}}
   <nldd-list variant="box" accessible-label="Expertises binnen ODI">
     {{- range $expertises -}}
-    <nldd-list-item size="md" type="link" href="{{ (printf "/odi-startpagina/expertises/%s" .slug) | relURL }}">
+    <nldd-list-item size="md" type="link" href="{{ (printf "/odi-startpagina/expertises%s" .slug) | relURL }}">
       <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
     </nldd-list-item>
     {{- end -}}
