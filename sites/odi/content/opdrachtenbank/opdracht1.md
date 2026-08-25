@@ -8,5 +8,6 @@ odi_thema_values:
   - netwerksamenwerking
 expertises:
   - ppm-centrum
+  - advies
 ---
 _Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
