@@ -5,7 +5,7 @@
 # Houd deze lijst gelijk aan die in Wies: de waarde zit erin dat de kennisbank
 # en het collega-overzicht dezelfde taal spreken.
 
-- slug: /odi-startpagina/ppm-centrum/
+- slug: /ppm-centrum/
   naam: Project en Programma  Centrum
   omschrijving: Aanpak, sturing en beheersing van programma's en projecten.
 - slug: ai
