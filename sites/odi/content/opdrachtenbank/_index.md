@@ -3,7 +3,6 @@ title: Opdrachtenbank
 description: |
   Ontdek en neem deel aan opdrachten binnen het ODI. Hier vind je actuele projecten,
   uitdagingen en mogelijkheden om bij te dragen aan digitalisering en innovatie.
-menu: main
 weight: 1
 ---
 
