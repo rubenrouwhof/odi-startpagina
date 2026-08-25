@@ -43,7 +43,7 @@ taxonomies:
   doelgroep: doelgroepen
   fase: fases
   thema: themas
-  odi-thema: odi-themas
+  odi_thema: odi_themas
   expertise: expertises 
 
 enableRobotsTXT: true
