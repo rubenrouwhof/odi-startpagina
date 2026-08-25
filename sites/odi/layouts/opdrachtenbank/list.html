@@ -1,4 +1,4 @@
-{{ define "main" }}
+{{ block "main" . }}
 {{- $vocab := site.Data.vocabulaire -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice
@@ -43,7 +43,6 @@
       {{- end -}}
     </nldd-container>
   </nldd-container>
-
   <!-- HOOFDKOLOM (Inhoud) -->
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
@@ -76,13 +75,12 @@
         data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
         data-odi-themas="{{ delimit (.Params.odi-themas | default slice) " " }}"
       >
-        {{- partial "opdracht-kaart.html" . }}
+        {{- partial "opdracht-kaart.html" . -}}
       </div>
       {{- end -}}
     </div>
   </div>
 </nldd-sidebar-section>
-
 <!-- Simpele filtering zonder extern JS -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
