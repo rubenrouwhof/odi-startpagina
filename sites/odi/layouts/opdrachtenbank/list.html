@@ -2,7 +2,7 @@
 {{- $vocab := site.Data.vocabulaire -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice
-  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
+  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise"),
   (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
 }}
 <nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
