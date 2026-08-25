@@ -1,20 +1,18 @@
 {{ define "main" }}
 {{- $vocab := hugo.Data.vocabulaire -}}
-{{- $facet := index (partial "facet-namen.html") .Data.Plural -}}
-
+{{- $facet := .Data.Singular -}}  <!-- Gebruikt .Data.Singular in plaats van partial -->
 <nldd-simple-section id="hoofdinhoud">
   <nldd-title size="1"><h1>{{ .Title }}</h1></nldd-title>
   <nldd-spacer size="8"></nldd-spacer>
   <nldd-rich-text>
-    <p>{{ len .Data.Terms }} {{ cond (eq (len .Data.Terms) 1) "term" "termen" }}, gesorteerd op aantal bronnen.</p>
+    <p>{{ len .Data.Terms }} {{ cond (eq (len .Data.Terms) 1) "term" "termen" }}, gesorteerd op aantal.</p>
   </nldd-rich-text>
 </nldd-simple-section>
-
 <nldd-simple-section padding-top="0">
   <nldd-list variant="box" accessible-label="{{ .Title }}">
     {{- range .Data.Terms.ByCount -}}
     <nldd-list-item size="md" type="link" href="{{ (printf "/%s/%s/" $.Data.Plural .Page.Data.Term) | relURL }}">
-      <nldd-text-cell text="{{ index (index $vocab $facet) .Page.Data.Term | default .Page.Data.Term }}"></nldd-text-cell>
+      <nldd-text-cell text="{{ if $facet }}{{ index (index $vocab $facet) .Page.Data.Term | default .Page.Data.Term }}{{ else }}{{ .Page.Data.Term }}{{ end }}"></nldd-text-cell>
       <nldd-spacer-cell size="8"></nldd-spacer-cell>
       <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ .Count }}"></nldd-text-cell>
     </nldd-list-item>
