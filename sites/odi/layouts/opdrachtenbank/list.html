@@ -5,7 +5,7 @@
 
 {{/* Definieer alle filtergroepen (expertises + odi_thema_values) */}}
 {{- $facetGroepen := slice
-  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied")
+  (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied"),
   (dict "meervoud" "odi_thema_values" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
 
@@ -16,7 +16,7 @@
       <nldd-title size="6" class="filter-kop"><h2>Filteren</h2></nldd-title>
       <nldd-spacer size="8"></nldd-spacer>
 
-      {{/* Knop om filters te wissen (verborgen tot er filters zijn toegepast) */}}
+      {{/* Knop om filters te wissen */}}
       <nldd-button
         id="filters-wissen"
         variant="neutral-transparent"
@@ -25,9 +25,8 @@
         hidden
       ></nldd-button>
 
-      {{/* Loop door alle filtergroepen (expertises + odi_thema_values) */}}
+      {{/* Loop door alle filtergroepen */}}
       {{- range $groep := $facetGroepen -}}
-        {{/* Haal de taxonomie op met de ENKELVOUDIGE sleutel (expertise, odi-thema) */}}
         {{- $termen := site.Taxonomies[$groep.enkelvoud] -}}
         {{- if $termen -}}
           <nldd-spacer size="24"></nldd-spacer>
@@ -35,9 +34,7 @@
           <nldd-spacer size="4"></nldd-spacer>
 
           <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
-            {{/* Loop door alle termen in de taxonomie (bv. ppm-centrum, advies) */}}
             {{- range $term, $paginas := $termen -}}
-              {{/* Filter alleen pagina's in de sectie "opdrachtenbank" */}}
               {{- $opdrachtPaginas := where $paginas "Section" "opdrachtenbank" -}}
               {{- if $opdrachtPaginas -}}
                 <nldd-list-item
@@ -50,22 +47,14 @@
                     <nldd-checkbox decorative checked="false"></nldd-checkbox>
                   </nldd-cell>
                   <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                  {{/* Gebruik vocabulaire voor vertalingen, val terug op $term als niet gevonden */}}
                   <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
                   <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                  {{/* Toon het aantal opdrachten met deze term */}}
-                  <nldd-text-cell
-                    width="fit-content"
-                    horizontal-alignment="right"
-                    color="secondary"
-                    text="{{ len $opdrachtPaginas }}"
-                  ></nldd-text-cell>
+                  <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
                 </nldd-list-item>
               {{- end -}}
             {{- end -}}
           </nldd-list>
         {{- else -}}
-          {{/* Waarschuwing als de taxonomie leeg is */}}
           {{- warnf "Geen %s gevonden! Controleer hugo.yaml en front matter." $groep.meervoud -}}
         {{- end -}}
       {{- end -}}
@@ -74,7 +63,6 @@
 
   {{/* --- HOOFDINHOUD (Opdrachtenlijst) --- */}}
   <div>
-    {{/* Titel en intro */}}
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
     {{ with .Params.intro }}
       <nldd-spacer size="8"></nldd-spacer>
@@ -83,7 +71,6 @@
 
     <nldd-spacer size="16"></nldd-spacer>
 
-    {{/* Zoekbalk en filterknop */}}
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
         <nldd-search-field
@@ -104,7 +91,6 @@
 
     <nldd-spacer size="16"></nldd-spacer>
 
-    {{/* Aantal zichtbare opdrachten */}}
     <nldd-rich-text spacing="flat">
       <p>
         <strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong>
@@ -114,7 +100,6 @@
 
     <nldd-spacer size="16"></nldd-spacer>
 
-    {{/* Melding als er geen resultaten zijn */}}
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog
         icon="search"
@@ -123,17 +108,14 @@
       ></nldd-inline-dialog>
     </div>
 
-    {{/* Lijst met opdrachten (gefiltemd door JavaScript) */}}
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
         <div
           class="opdracht-item"
-          {{/* Data-attributen voor JavaScript-filtering */}}
           data-tekst="{{ lower (trim (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) " ") }}"
           data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
           data-odi-thema-values="{{ delimit (.Params.odi_thema_values | default slice) " " }}"
         >
-          {{/* Partial voor de opdrachtkaart */}}
           {{- partial "opdracht-kaart.html" . -}}
         </div>
       {{- end -}}
