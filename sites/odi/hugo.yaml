@@ -38,7 +38,6 @@ module:
 
 # De vijf assen waarop de kennisbank bronnen classificeert.
 taxonomies:
-  # expertise: expertises - proef voor het renderen van de juiste pagina
   soort: soorten
   doelgroep: doelgroepen
   fase: fases
