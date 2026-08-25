@@ -1,11 +1,10 @@
 {{ define "main" }}
-{{- $vocab := hugo.Data.vocabulaire -}}
+{{- $vocab := site.Data.vocabulaire -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertise")
   (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
--}}
-
+}}
 <nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
   <!-- SIDEBAR (Filters) -->
   <nldd-container slot="sidebar" padding="16">
@@ -13,9 +12,8 @@
       <nldd-title size="6" class="filter-kop"><h2>Filteren</h2></nldd-title>
       <nldd-spacer size="8"></nldd-spacer>
       <nldd-button id="filters-wissen" variant="neutral-transparent" size="sm" text="Wis alle filters" hidden></nldd-button>
-
       {{- range $groep := $facetGroepen -}}
-        {{- $termen := index site.Taxonomies $groep.meervoud -}}
+        {{- $termen := index .Site.Taxonomies $groep.meervoud -}}
         {{- if $termen -}}
         <nldd-spacer size="24"></nldd-spacer>
         <nldd-title size="6"><h3>{{ $groep.label }}</h3></nldd-title>
@@ -54,7 +52,6 @@
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{ end }}
     <nldd-spacer size="16"></nldd-spacer>
-
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
         <nldd-search-field id="opdrachten-zoek" accessible-label="Zoek in de opdrachten" placeholder="Zoek op titel, beschrijving of eigenaar"></nldd-search-field>
@@ -63,17 +60,14 @@
         <nldd-button id="filters-openen" variant="secondary" start-icon="list-decreasing-lines" text="Filteren"></nldd-button>
       </nldd-toolbar-item>
     </nldd-toolbar>
-
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
-    </nldd-spacer>
+    </nldd-rich-text>
     <nldd-spacer size="16"></nldd-spacer>
-
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog icon="search" text="Geen opdrachten gevonden" supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."></nldd-inline-dialog>
     </div>
-
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
       <div
