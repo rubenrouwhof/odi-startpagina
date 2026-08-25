@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- .Scratch.Add "paginaScripts" (slice "js/opdrachten-filter.js") -}}
-{{- $vocab := hugo.Data.vocabulaire -}}
+{{- $vocab := hugo.Data.vocabulaire -}}  {# ✅ Fix 1: Gebruik hugo.Data in plaats van .Site.Data #}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied") -}}
 <nldd-sidebar-section id="hoofdinhoud" width="1440px" sidebar-label="Filteren">
@@ -10,7 +10,7 @@
       <nldd-spacer size="8"></nldd-spacer>
       <nldd-button id="filters-wissen" variant="neutral-transparent" size="sm" text="Wis alle filters" hidden></nldd-button>
       {{- /* Alleen expertises */ -}}
-      {{- $termen := index .Site.Taxonomies "expertise" }}  {# <-- AANGEPAST: enkelvoud! #}
+      {{- $termen := index .Site.Taxonomies "expertise" -}}  {# ✅ Fix 2: Gebruik "expertise" (enkelvoud) #}
       {{- if $termen -}}
         <nldd-spacer size="24"></nldd-spacer>
         <nldd-title size="6"><h3>Expertisegebied</h3></nldd-title>
@@ -41,7 +41,6 @@
       {{- end -}}
     </nldd-container>
   </nldd-container>
-  <!-- Rest van de template blijft hetzelfde -->
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
     {{ with .Params.intro }}
@@ -69,7 +68,7 @@
       {{- range $opdrachten.ByTitle -}}
         <div
           class="opdracht-item"
-          data-tekst="{{ lower (trim (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) " ") }}"
+          data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
           data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
         >
           {{- partial "opdracht-kaart.html" . -}}
