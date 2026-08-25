@@ -1,15 +1,15 @@
 // Client-side facetfilter voor het opdrachtenoverzicht.
 //
-// Binnen het facet "expertises" geldt OF (expertise=A OF expertise=B).
-// Tussen de zoekterm en het facet geldt EN.
+// Binnen elk facet geldt OF (expertise=A OF expertise=B OF odi_thema=X).
+// Tussen de facetten en de zoekterm geldt EN.
 // De actieve filters staan in de query-string, zodat een gefilterd overzicht
 // deelbaar en bookmarkbaar is en de terugknop werkt.
 
 (function () {
   "use strict";
 
-  // Alleen het 'expertises'-facet voor opdrachten
-  const FACETTEN = ["expertises"];
+  // Facetten die gefilterd kunnen worden
+  const FACETTEN = ["expertises", "odi_thema_values"];
 
   function init() {
     // DOM-elementen
