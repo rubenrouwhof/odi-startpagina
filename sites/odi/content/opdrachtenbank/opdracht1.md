@@ -4,7 +4,7 @@ description: Voorbeeld van een werkpakket voor agile projectmanagement binnen he
 slug: mooi voorbeeld
 date: 2025-06-03
 eigenaar: Interimpool Digitalisering
-odi-thema:
+odi-themas:
   - netwerksamenwerking
 expertises:
   - ppm-centrum
