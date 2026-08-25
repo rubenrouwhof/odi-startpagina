@@ -32,17 +32,17 @@
           <nldd-spacer size="4"></nldd-spacer>
           <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
             {{- range $term, $paginas := $termen -}}
-            {{- $opdrachtPaginas := where $paginas "Section" "==" "opdrachtenbank" -}}
-            {{- if $opdrachtPaginas -}}
-              <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
-                <nldd-cell>
-                  <nldd-checkbox decorative checked="false"></nldd-checkbox>  <!-- ✅ checked="false" toegevoegd -->
-                </nldd-cell>
-                <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
-                <nldd-spacer-cell size="8"></nldd-spacer-cell>
-                <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
-              </nldd-list-item>
+              {{- $opdrachtPaginas := where $paginas "Section" "==" "opdrachtenbank" -}}
+              {{- if $opdrachtPaginas -}}
+                <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
+                  <nldd-cell>
+                    <nldd-checkbox decorative checked="false"></nldd-checkbox>
+                  </nldd-cell>
+                  <nldd-spacer-cell size="8"></nldd-spacer-cell>
+                  <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
+                  <nldd-spacer-cell size="8"></nldd-spacer-cell>
+                  <nldd-text-cell width="fit-content" horizontal-alignment="right" color="secondary" text="{{ len $opdrachtPaginas }}"></nldd-text-cell>
+                </nldd-list-item>
               {{- end -}}
             {{- end -}}
           </nldd-list>
@@ -83,7 +83,7 @@
     <nldd-spacer size="16"></nldd-spacer>
     <nldd-rich-text spacing="flat">
       <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
-    </nldd-spacer>
+    </nldd-rich-text>
     <nldd-spacer size="16"></nldd-spacer>
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog
@@ -94,11 +94,12 @@
     </div>
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
+        {{- /* Gecorrigeerde data-attributen */ -}}
         <div
           class="opdracht-item"
           data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
           data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-          data-odi-thema-values="{{ delimit (.Params.odi_thema_values | default slice) " " }}"  <!-- ✅ Aangepast van data-odi-themas -->
+          data-odi-thema-values="{{ delimit (.Params.odi_thema_values | default slice) " " }}"
         >
           {{- partial "opdracht-kaart.html" . -}}
         </div>
