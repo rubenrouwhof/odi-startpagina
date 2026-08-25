@@ -5,7 +5,7 @@
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied")
-  (dict "meervoud" "odi-themas" "enkelvoud" "odi-thema" "label" "ODI-thema")
+  (dict "meervoud" "odi-thema_values" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
 <nldd-sidebar-section
   id="hoofdinhoud"
@@ -105,7 +105,7 @@
           class="opdracht-item"
           data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
           data-expertises="{{ delimit (.Params.expertises | default slice) " " }}"
-          data-odi-themas="{{ delimit (.Params.odi_themas | default slice) " " }}"
+          data-odi-themas="{{ delimit (.Params.odi_thema_values | default slice) " " }}"
         >
           {{- partial "opdracht-kaart.html" . -}}
         </div>
