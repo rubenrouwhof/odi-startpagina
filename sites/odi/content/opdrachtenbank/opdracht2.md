@@ -6,9 +6,8 @@ date: 2025-06-03
 eigenaar: Interimpool Digitalisering
 soorten:
   - sjabloon
-themas:  # <-- TOEGEVOEGD (moet overeenkomen met vocabulaire.yaml)
-  - agile
-  - projectmanagement
+odi-themas:
+  - netwerksamenwerking
 doelgroepen:
   - projectmanager
 fases:
@@ -18,6 +17,6 @@ fases:
   - agile-iteratie
   - agile-release
 expertises:
-  - agile-project-programma-en-portfoliomanagement
+  - advies
 ---
 _Voor deze opdracht is nog geen gedetailleerde toelichting beschikbaar._
