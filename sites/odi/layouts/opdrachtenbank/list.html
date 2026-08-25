@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{- .Scratch.Add "paginaScripts" (slice "js/opdrachten-filter.js") -}}
-{{- $vocab := site.Data.vocabulaire -}}  {{/* ✅ Gebruik site.Data in plaats van .Site.Data */}}
+{{- $vocab := site.Data.vocabulaire -}}
 {{- /* Filter alleen pagina's in de sectie "opdrachtenbank" */ -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
 {{- $facetGroepen := slice
@@ -25,17 +25,21 @@
         hidden
       ></nldd-button>
       {{- range $groep := $facetGroepen -}}
-        {{- $termen := index site.Taxonomies $groep.meervoud -}}  {{/* ✅ Gebruik site.Taxonomies in plaats van .Site.Taxonomies */}}
+        {{- $termen := index site.Taxonomies $groep.meervoud -}}
         {{- if $termen -}}
           <nldd-spacer size="24"></nldd-spacer>
           <nldd-title size="6"><h3>{{ $groep.label }}</h3></nldd-title>
           <nldd-spacer size="4"></nldd-spacer>
           <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
             {{- range $term, $paginas := $termen -}}
-              {{- /* ✅ Verwijder de dubbele sectie-filter hieronder als je zeker weet dat $opdrachten al gefilterd is */ -}}
-              {{- $opdrachtPaginas := $paginas -}}  {{/* ✅ Gebruik $paginas direct (al gefilterd door $opdrachten) */}}
+              {{- $opdrachtPaginas := $paginas -}}
               {{- if $opdrachtPaginas -}}
-                <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
+                <nldd-list-item
+                  checkbox
+                  data-facet="{{ $groep.meervoud }}"
+                  data-value="{{ $term }}"
+                  data-checked="false"
+                >
                   <nldd-cell>
                     <nldd-checkbox decorative></nldd-checkbox>
                   </nldd-cell>
