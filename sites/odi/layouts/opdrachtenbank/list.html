@@ -1,12 +1,14 @@
 {{ define "main" }}
 {{- .Scratch.Add "paginaScripts" (slice "js/opdrachten-filter.js") -}}
-{{- $vocab := hugo.Data.vocabulaire -}}
+{{- $vocab := .Site.Data.vocabulaire -}}
 {{- /* Filter alleen pagina's in de sectie "opdrachtenbank" */ -}}
 {{- $opdrachten := where .Pages "Section" "opdrachtenbank" -}}
+
 {{- $facetGroepen := slice
   (dict "meervoud" "expertises" "enkelvoud" "expertise" "label" "Expertisegebied")
   (dict "meervoud" "odi-thema_values" "enkelvoud" "odi-thema" "label" "ODI-thema")
 -}}
+
 <nldd-sidebar-section
   id="hoofdinhoud"
   width="1440px"
@@ -17,6 +19,7 @@
     <nldd-container padding="0">
       <nldd-title size="6" class="filter-kop"><h2>Filteren</h2></nldd-title>
       <nldd-spacer size="8"></nldd-spacer>
+
       <nldd-button
         id="filters-wissen"
         variant="neutral-transparent"
@@ -24,19 +27,21 @@
         text="Wis alle filters"
         hidden
       ></nldd-button>
+
       {{- range $groep := $facetGroepen -}}
-        {{- $termen := index site.Taxonomies $groep.meervoud -}}
+        {{- $termen := index .Site.Taxonomies $groep.meervoud -}}
         {{- if $termen -}}
           <nldd-spacer size="24"></nldd-spacer>
           <nldd-title size="6"><h3>{{ $groep.label }}</h3></nldd-title>
           <nldd-spacer size="4"></nldd-spacer>
+
           <nldd-list variant="simple" accessible-label="{{ $groep.label }}">
             {{- range $term, $paginas := $termen -}}
-              {{- $opdrachtPaginas := where $paginas "Section" "==" "opdrachtenbank" -}}
+              {{- $opdrachtPaginas := where $paginas "Section" "opdrachtenbank" -}}
               {{- if $opdrachtPaginas -}}
                 <nldd-list-item checkbox data-facet="{{ $groep.meervoud }}" data-value="{{ $term }}">
                   <nldd-cell>
-                    <nldd-checkbox decorative checked="false"></nldd-checkbox>
+                    <nldd-checkbox decorative></nldd-checkbox>
                   </nldd-cell>
                   <nldd-spacer-cell size="8"></nldd-spacer-cell>
                   <nldd-text-cell text="{{ index (index $vocab $groep.enkelvoud) $term | default $term }}"></nldd-text-cell>
@@ -50,13 +55,16 @@
       {{- end -}}
     </nldd-container>
   </nldd-container>
+
   <div>
     <nldd-title size="3"><h1>{{ .Title }}</h1></nldd-title>
     {{ with .Params.intro }}
       <nldd-spacer size="8"></nldd-spacer>
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{ end }}
+
     <nldd-spacer size="16"></nldd-spacer>
+
     <nldd-toolbar label="Zoeken en filteren">
       <nldd-toolbar-item slot="start" priority="3" width="560px" max-width="560px" min-width="160px">
         <nldd-search-field
@@ -65,6 +73,7 @@
           placeholder="Zoek op titel, beschrijving of eigenaar"
         ></nldd-search-field>
       </nldd-toolbar-item>
+
       <nldd-toolbar-item id="filter-item" slot="end" priority="2">
         <nldd-button
           id="filters-openen"
@@ -80,11 +89,18 @@
         ></nldd-menu-item>
       </nldd-toolbar-item>
     </nldd-toolbar>
+
     <nldd-spacer size="16"></nldd-spacer>
+
     <nldd-rich-text spacing="flat">
-      <p><strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong> van {{ len $opdrachten }} opdrachten</p>
+      <p>
+        <strong id="zichtbaar-aantal">{{ len $opdrachten }}</strong>
+        van {{ len $opdrachten }} opdrachten
+      </p>
     </nldd-rich-text>
+
     <nldd-spacer size="16"></nldd-spacer>
+
     <div id="geen-resultaten" class="geen-resultaten" hidden>
       <nldd-inline-dialog
         icon="search"
@@ -92,9 +108,9 @@
         supporting-text="Er zijn geen opdrachten die aan alle gekozen filters voldoen."
       ></nldd-inline-dialog>
     </div>
+
     <div class="opdracht-raster" id="opdrachten-lijst">
       {{- range $opdrachten.ByTitle -}}
-        {{- /* Gecorrigeerde data-attributen */ -}}
         <div
           class="opdracht-item"
           data-tekst="{{ lower (printf "%s %s %s" .Title (.Params.description | default "") (.Params.eigenaar | default "")) }}"
