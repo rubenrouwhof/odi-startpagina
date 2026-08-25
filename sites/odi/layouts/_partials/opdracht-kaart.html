@@ -8,10 +8,12 @@
       <nldd-rich-text><p>{{ . }}</p></nldd-rich-text>
     {{- end -}}
     {{- $tags := slice -}}
-    {{- with index .Params.soorten 0 -}}
-      {{- $tags = $tags | append (index (hugo.Data.vocabulaire.soort) . | default .) -}}
+    {{- /* Vervang 'soorten' door 'expertises' */ -}}
+    {{- range (.Params.expertises | default slice) -}}
+      {{- $tags = $tags | append (index (hugo.Data.vocabulaire.expertise) . | default .) -}}
     {{- end -}}
-    {{- range first 2 (.Params.themas | default slice) -}}
+    {{- /* Vervang 'themas' door 'odi-themas' */ -}}
+    {{- range (.Params.odi_themas | default slice) -}}
       {{- $tags = $tags | append (index (hugo.Data.vocabulaire.thema) . | default .) -}}
     {{- end -}}
     {{- with $tags -}}
