@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <nldd-card background="tinted" accessible-label="Complexiteitscore invullen">
   <nldd-container padding="24">
     <nldd-title size="3">
@@ -14,7 +13,7 @@
     </nldd-rich-text>
     <nldd-spacer size="24"></nldd-spacer>
 
-    <!-- Tabel met NLDD-stijlen -->
+    <!-- Tabel -->
     <div class="complexiteitstabel-container">
       <table class="nldd-table">
         <thead class="nldd-table__head">
@@ -67,13 +66,12 @@
   </nldd-container>
 </nldd-card>
 
-<!-- CSS voor de tabel (aangepast aan NLDD) -->
+<!-- CSS -->
 <style>
   .complexiteitstabel-container {
-    overflow-x: auto; /* Zorgt voor scrollbaarheid op kleine schermen */
+    overflow-x: auto;
     margin-bottom: 1rem;
   }
-
   .nldd-table {
     width: 100%;
     border-collapse: collapse;
@@ -82,11 +80,9 @@
     font-size: var(--nldd-font-size-body, 1rem);
     line-height: var(--nldd-line-height-body, 1.5);
   }
-
   .nldd-table__head {
     background-color: var(--nldd-color-grey-200, #f2f2f2);
   }
-
   .nldd-table__header {
     padding: 12px 16px;
     text-align: left;
@@ -94,32 +90,25 @@
     color: var(--nldd-color-grey-800, #333);
     border-bottom: 2px solid var(--nldd-color-grey-300, #e0e0e0);
   }
-
   .nldd-table__body tr:nth-child(even) {
     background-color: var(--nldd-color-grey-100, #f9f9f9);
   }
-
   .nldd-table__body tr:hover {
     background-color: var(--nldd-color-grey-200, #f2f2f2);
   }
-
   .nldd-table__cell {
     padding: 12px 16px;
     border-bottom: 1px solid var(--nldd-color-grey-300, #e0e0e0);
     vertical-align: top;
   }
-
   .nldd-table__foot {
     font-weight: 600;
     background-color: var(--nldd-color-grey-100, #f9f9f9);
   }
-
-  /* Stijl voor radiobuttons en labels */
   .nldd-table input[type="radio"] {
     margin: 0 8px 0 0;
     accent-color: var(--nldd-color-primary, #0070f0);
   }
-
   .nldd-table label {
     cursor: pointer;
     display: inline-block;
@@ -128,7 +117,6 @@
     color: var(--nldd-color-grey-700, #555);
     line-height: 1.4;
   }
-
   .nldd-table input[type="text"] {
     width: 100%;
     padding: 8px;
@@ -138,8 +126,6 @@
     font-size: 0.875rem;
     box-sizing: border-box;
   }
-
-  /* Tooltip voor beschrijvingen */
   .beschrijving {
     display: inline-block;
     cursor: help;
@@ -148,29 +134,24 @@
     font-size: 0.875rem;
     vertical-align: middle;
   }
-
   .beschrijving:hover {
     text-decoration: underline;
   }
-
-  /* Responsive aanpassingen */
   @media (max-width: 768px) {
     .nldd-table__header,
     .nldd-table__cell {
       padding: 8px 12px;
       font-size: 0.875rem;
     }
-
     .nldd-table {
       font-size: 0.875rem;
     }
   }
 </style>
 
-<!-- JavaScript (volledige logica met alle 10 dimensies) -->
+<!-- JavaScript (gerepareerd) -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Volledige lijst met alle 10 complexiteitsdimensies
     const dimensies = [
       {
         nr: 1,
@@ -180,113 +161,111 @@
           "Er zijn amper vage, tegenstrijdige en/of veranderende doelen en/of eisen binnen het project.",
           "Het project heeft last van vage, tegenstrijdige en/of veranderende doelen en/of eisen op afdelings- of divisieniveau binnen de eigen organisatie.",
           "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig van de hoogste niveaus binnen de eigen organisatie.",
-          "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig vanuit de hoogste niveaus van meerdere organisaties, die belang hebben bij of invloed hebben op het project."
+          "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig vanuit de hoogste niveaus van meerdere organisaties."
         ]
       },
       {
         nr: 2,
         naam: "Procesgerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden; de processen met de betreffende kwaliteitseisen; het team en communicatiestructuur; en de beschikbaarheid van ondersteunende methoden, instrumenten en technieken.",
+        beschrijving: "Complexiteit ontstaan door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden.",
         scores: [
-          "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen van de organisatie zijn afdoende voor het project.",
-          "Het aantal taken / werkpakketten loopt in de tientallen, kennisintensieve werkuren > 1.000, er zijn meerdere deelprojecten met verschillende methoden, instrumenten en technieken.",
-          "Het aantal taken / werkpakketten loopt in de honderden, ‘blue collar’ werkuren > 30.000 en/of kennisintensieve werkuren > 6.000, meerdere locaties / sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken.",
-          "Het aantal taken / werkpakketten loopt in de duizendtallen, ‘blue collar’ werkuren > 100.000 en/of kennisintensieve werkuren > 30.000, meerdere locaties / sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken."
+          "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen zijn afdoende.",
+          "Het aantal taken loopt in de tientallen, kennisintensieve werkuren > 1.000, meerdere deelprojecten.",
+          "Het aantal taken loopt in de honderden, ‘blue collar’ werkuren > 30.000 en/of kennisintensieve werkuren > 6.000.",
+          "Het aantal taken loopt in de duizendtallen, ‘blue collar’ werkuren > 100.000 en/of kennisintensieve werkuren > 30.000."
         ]
       },
       {
         nr: 3,
         naam: "Input-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het verwerven en financieren van de nodige budgetten (eventueel uit meerdere bronnen); de diversiteit van of het gebrek aan middelen (zowel menselijke als andere); en de processen en activiteiten die nodig zijn om de financiële en resource aspecten, waaronder inkoop, te managen.",
+        beschrijving: "Complexiteit ontstaan door: het verwerven en financieren van budgetten, diversiteit van middelen.",
         scores: [
-          "Financiering, verwerving en inkoop worden door de staande organisatie geregeld. Beschikbaarheid van geschikte teammedewerkers is geen groot probleem. De financiering is geen zorg voor het project. Bestaande verwerving- en inkoopstrategieën kunnen routinematig toegepast worden.",
-          "Beschikbaarheid van geschikte teammedewerkers vormt een uitdaging. De financiering is aanvankelijk niet duidelijk en/of moet gedeeltelijk tijdens het project geborgd worden. Bestaande verwerving- en inkoopstrategieën zijn toepasbaar.",
-          "De financiering is aanvankelijk niet duidelijk en moet tijdens en door het project geborgd worden. Er wordt (minimaal gedeeltelijk) gebruik gemaakt van externe financiering. Beschikbaarheid van geschikte teammedewerkers vormt vaak een uitdaging.",
-          "Verwerving- en inkoopstrategieën zijn uitdagend en vernieuwend. Beschikbaarheid van geschikte teammedewerkers vormt vaak een uitdaging."
+          "Financiering en inkoop worden door de organisatie geregeld. Beschikbaarheid van teammedewerkers is geen probleem.",
+          "Beschikbaarheid van teammedewerkers vormt een uitdaging. Financiering is aanvankelijk niet duidelijk.",
+          "Financiering moet tijdens het project geborgd worden. Externe financiering wordt gebruikt.",
+          "Verwerving- en inkoopstrategieën zijn uitdagend en vernieuwend."
         ]
       },
       {
         nr: 4,
         naam: "Risico-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het risicoprofiel en de onzekerheidsniveaus van het project en de daarvan afhankelijke initiatieven.",
+        beschrijving: "Complexiteit ontstaan door: het risicoprofiel en onzekerheidsniveaus.",
         scores: [
-          "Het risicoprofiel (inclusief HSSE aspecten) wordt actief gemanaged binnen het project. De belangrijkste risico’s zijn bij aanvang van het project bekend.",
-          "Het risicoprofiel (inclusief HSSE aspecten) wordt actief gemanaged binnen het project en heeft aandacht op afdelings- of divisieniveau binnen de organisatie. De belangrijkste risico’s zijn niet allemaal bij aanvang van het project bekend.",
-          "Het risicoprofiel (inclusief HSSE aspecten) wordt actief gemanaged binnen het project en heeft aandacht op het hoogste niveau van de organisatie en/of is onderwerp van politiek c.q. media op plaatselijk niveau. De belangrijkste risico’s zijn niet allemaal bij aanvang van het project bekend.",
-          "Het risicoprofiel (inclusief HSSE aspecten) wordt actief gemanaged binnen het project en heeft directe impact op de strategie van de organisatie en/of is onderwerp van politiek c.q. media op (inter)nationaal niveau. De belangrijkste risico’s zijn bij aanvang van het project bekend en niet goed in te schatten."
+          "Risicoprofiel wordt actief gemanaged. Belangrijkste risico’s zijn bij aanvang bekend.",
+          "Risicoprofiel heeft aandacht op afdelingsniveau. Niet alle risico’s zijn bij aanvang bekend.",
+          "Risicoprofiel heeft aandacht op hoogste niveau. Risico’s zijn niet allemaal bij aanvang bekend.",
+          "Risicoprofiel heeft directe impact op de strategie. Risico’s zijn niet goed in te schatten."
         ]
       },
       {
         nr: 5,
         naam: "Strategie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: de invloed van de formele strategie van de sponsorende organisatie(s), de normen, voorschriften, informele strategieën en beleidsmaatregelen die het project kunnen beïnvloeden; het belang van het eindresultaat voor de organisatie, de mate van overeenstemming tussen de belanghebbenden; de informele invloed, belangen en weerstand rond het project; en eventuele vereisten van wettelijke of regulerende aard.",
+        beschrijving: "Complexiteit ontstaan door: invloed van strategie, normen, voorschriften en beleidsmaatregelen.",
         scores: [
-          "Het project wordt gerealiseerd binnen een bestaande strategie, waarbij er geen of slechts in beperkte mate sprake was van politiek, informele invloed en weerstand.",
-          "Het project wordt gerealiseerd binnen een bestaande strategie, waarbij het project last had van politiek, informele invloed en weerstand.",
-          "Het project betreft de implementatie van nieuwe strategie, waarbij sprake is van veel politiek, informele invloed en weerstand binnen de organisatie.",
-          "Door het project wordt nieuwe strategie gedefinieerd en geïmplementeerd, waarbij er sprake is van veel politiek, informele invloed en weerstand op het hoogste niveau van meerdere organisaties."
+          "Project wordt gerealiseerd binnen bestaande strategie, weinig politiek of weerstand.",
+          "Project heeft last van politiek, informele invloed en weerstand.",
+          "Project betreft implementatie van nieuwe strategie met veel politiek en weerstand.",
+          "Project definieert nieuwe strategie met veel politiek en weerstand op hoogste niveau."
         ]
       },
       {
         nr: 6,
         naam: "Organisatie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het aantal en de verstrengeling van de raakvlakken tussen het project met de systemen, de structuren en de rapportage- en besluitvormingsprocessen van de organisatie(s).",
+        beschrijving: "Complexiteit ontstaan door: raakvlakken met systemen, structuren en processen.",
         scores: [
-          "Het project wordt in geringe mate geraakt door systemen, structuren en/of rapportage- en besluitvormingsprocessen binnen de organisatie.",
-          "Het project wordt intensief geraakt door systemen, structuren en/of rapportage- en besluitvormingsprocessen binnen de organisatie.",
-          "Het project introduceert nieuwe systemen, structuren en/of rapportage- en besluitvormingsprocessen binnen de organisatie.",
-          "Het project introduceert nieuwe systemen, structuren en/of rapportage- en besluitvormingsprocessen binnen meerdere organisaties, waarbij onderling raakvlakken zijn."
+          "Project wordt in geringe mate geraakt door systemen en structuren.",
+          "Project wordt intensief geraakt door systemen en structuren.",
+          "Project introduceert nieuwe systemen en structuren.",
+          "Project introduceert nieuwe systemen en structuren in meerdere organisaties."
         ]
       },
       {
         nr: 7,
         naam: "Sociaal-culturele complexiteit",
-        beschrijving: "Complexiteit ontstaan door: de sociaal-culturele dynamiek. Deze kan onder meer bestaan uit de raakvlakken met deelnemers, belanghebbenden of organisaties van verschillende sociaal-culturele achtergronden, of het te maken krijgen met verspreide teams.",
+        beschrijving: "Complexiteit ontstaan door: sociaal-culturele dynamiek.",
         scores: [
-          "Alle deelnemers aan het project hebben dezelfde sociaal-culturele achtergrond en/of er is sprake van één locatie.",
-          "Er zijn enkele deelnemers met verschillende sociaal-culturele achtergronden en/of er is sprake van meerdere locaties.",
-          "Er zijn meerdere deelnemers met zeer verschillende sociaal-culturele achtergronden en/of er is sprake van meerdere locaties in meerdere landen of tijdzones.",
-          "Er zijn veel deelnemers met zeer verschillende sociaal-culturele achtergronden en/of er is sprake van meerdere locaties in meerdere landen en uiteenlopende tijdzones."
+          "Alle deelnemers hebben dezelfde achtergrond en/of één locatie.",
+          "Enkele deelnemers met verschillende achtergronden en/of meerdere locaties.",
+          "Meerdere deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen.",
+          "Veel deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen en tijdzones."
         ]
       },
       {
         nr: 8,
         naam: "Team-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: de eisen aan het management en leiderschap binnen het project. Het gaat hier om de complexiteit die ontstaat door de wisselwerking van de team(s) en hun volwassenheid en de daarmee verband houdende mate van visie, begeleiding en aansturing.",
+        beschrijving: "Complexiteit ontstaan door: eisen aan management en leiderschap.",
         scores: [
-          "Binnen het project is er één team of zijn er enkele teams die onderling moeten samenwerken. De teams zijn voor hun taak berekend.",
-          "Binnen het project zijn meerdere teams die intern en onderling niet altijd op een even taakvolwassen manier samenwerken.",
-          "Binnen het project zijn meerdere gedistribueerde en in taakvolwassenheid verschillende teams die onderling moeten samenwerken.",
-          "Binnen het project zijn vele gedistribueerde en in taakvolwassenheid verschillende teams binnen meerdere organisaties die onderling moeten samenwerken."
+          "Één team of enkele teams die samenwerken.",
+          "Meerdere teams die niet altijd taakvolwassen samenwerken.",
+          "Meerdere gedistribueerde teams met verschillende volwassenheid.",
+          "Vele gedistribueerde teams in meerdere organisaties."
         ]
       },
       {
         nr: 9,
         naam: "Innovatie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: de mate van technische innovatie binnen het project. Dit omvat bereidheid tot leren en de bijbehorende vindingrijkheid die nodig is om te innoveren en/of om te werken met onbekende resultaten, benaderingen, processen, instrumenten en/of methoden.",
+        beschrijving: "Complexiteit ontstaan door: technische innovatie.",
         scores: [
-          "Binnen het project worden vooral bestaande technieken en methoden gebruikt.",
-          "Het project is innovatief van aard, maar de organisatie heeft met deze technologie of werkwijze al enige ervaring opgedaan.",
-          "Het project richt zich op of maakt gebruik van innovatie die voor de organisatie nieuw is, maar waar elders wel ervaringen mee zijn opgedaan.",
-          "Het project richt zich op of maakt op grote schaal gebruik van baanbrekende innovatie waarbij (op onderdelen) de resultaten vooraf niet voorspelbaar zijn."
+          "Bestaande technieken en methoden worden gebruikt.",
+          "Project is innovatief, maar organisatie heeft ervaring met de technologie.",
+          "Project gebruikt innovatie die nieuw is voor de organisatie.",
+          "Project gebruikt baanbrekende innovatie met onvoorspelbare resultaten."
         ]
       },
       {
         nr: 10,
         naam: "Autonomie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: de mate van autonomie en verantwoordelijkheid die aan de manager van het project is gegeven, of door hem/haar genomen of getoond wordt. Dit manifesteert zich in de coördinatie, de communicatie, het bevorderen en het verdedigen van de belangen van het project bij anderen.",
+        beschrijving: "Complexiteit ontstaan door: mate van autonomie en verantwoordelijkheid.",
         scores: [
-          "De projectmanager rapporteert aan een opdrachtgever/stuurgroep. Er is in geringe mate sprake van participatie in besluitvorming, en van de noodzaak om de belangen van het project elders te verdedigen.",
-          "De projectmanager rapporteert aan een opdrachtgever/stuurgroep en bereidt regelmatig besluitvorming voor. De projectmanager verdedigt de belangen van het project binnen de organisatie.",
-          "De projectmanager rapporteert aan een sturend niveau hoog in de organisatie waarbij zijn invloed terug te vinden is in de besluitvorming. De projectmanager verdedigt de belangen van het project binnen de betrokken organisatie(s).",
-          "De projectmanager rapporteert direct aan het hoogste niveau, waarbij er duidelijk sprake is van wederzijdse beïnvloeding. De projectmanager verdedigt de belangen van het project op het hoogste niveau binnen de betrokken organisatie(s)."
+          "Projectmanager rapporteert aan opdrachtgever, weinig participatie in besluitvorming.",
+          "Projectmanager bereidt besluitvorming voor en verdedigt belangen binnen de organisatie.",
+          "Projectmanager rapporteert aan hoog niveau, invloed in besluitvorming.",
+          "Projectmanager rapporteert aan hoogste niveau, wederzijdse beïnvloeding."
         ]
       }
     ];
 
     const tbody = document.querySelector('.nldd-table__body');
-
-    // Functie om een rij voor een dimensie te genereren
     dimensies.forEach(dimensie => {
       const row = document.createElement('tr');
 
@@ -296,7 +275,7 @@
       nrCell.textContent = dimensie.nr;
       row.appendChild(nrCell);
 
-      // Naam + beschrijving (tooltip)
+      // Naam + beschrijving
       const naamCell = document.createElement('td');
       naamCell.className = 'nldd-table__cell';
       naamCell.innerHTML = `
@@ -328,66 +307,51 @@
         row.appendChild(scoreCell);
       }
 
-      // Score (leeg, wordt ingevuld via JS)
+      // Score
       const scoreCell = document.createElement('td');
       scoreCell.className = 'nldd-table__cell';
       scoreCell.id = `score-${dimensie.nr}-waarde`;
       scoreCell.textContent = '0';
       row.appendChild(scoreCell);
 
-      // Toelichting (alleen zichtbaar bij score 3 of 4)
+      // Toelichting
       const toelichtingCell = document.createElement('td');
       toelichtingCell.className = 'nldd-table__cell';
-
       const toelichtingInput = document.createElement('input');
       toelichtingInput.type = 'text';
       toelichtingInput.placeholder = 'Toelichting (verplicht bij 3 of 4)';
       toelichtingInput.dataset.dimensie = dimensie.nr;
       toelichtingInput.style.display = 'none';
       toelichtingInput.setAttribute('aria-label', `Toelichting voor dimensie ${dimensie.nr}`);
-
       toelichtingCell.appendChild(toelichtingInput);
       row.appendChild(toelichtingCell);
 
       tbody.appendChild(row);
     });
 
-    // Functie om de score bij te werken
+    // Functies
     function updateScore(event) {
       const dimensieNr = event.target.dataset.dimensie;
       const score = parseInt(event.target.value);
       const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
       const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
 
-      if (scoreCell) {
-        scoreCell.textContent = score;
-      }
-
+      if (scoreCell) scoreCell.textContent = score;
       if (toelichtingInput) {
-        if (score >= 3) {
-          toelichtingInput.style.display = 'block';
-        } else {
-          toelichtingInput.style.display = 'none';
-          toelichtingInput.value = '';
-        }
+        toelichtingInput.style.display = (score >= 3) ? 'block' : 'none';
+        if (score < 3) toelichtingInput.value = '';
       }
-
       berekenTotaalscore();
     }
 
-    // Totaalscore berekenen
     function berekenTotaalscore() {
       let totaal = 0;
       dimensies.forEach(dimensie => {
         const selectedRadio = document.querySelector(`input[name="score-${dimensie.nr}"]:checked`);
-        if (selectedRadio) {
-          totaal += parseInt(selectedRadio.value);
-        }
+        if (selectedRadio) totaal += parseInt(selectedRadio.value);
       });
       const totaalscoreElement = document.getElementById('totaalscore');
-      if (totaalscoreElement) {
-        totaalscoreElement.textContent = totaal;
-      }
+      if (totaalscoreElement) totaalscoreElement.textContent = totaal;
     }
   });
 </script>
