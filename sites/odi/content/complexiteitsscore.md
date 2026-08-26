@@ -2,4 +2,4 @@
 title: "Complexiteitscore Invullen"
 ---
 
-{{ partial "complexiteitstabel.html" . }}
+{{ partial "test.html" . }}
