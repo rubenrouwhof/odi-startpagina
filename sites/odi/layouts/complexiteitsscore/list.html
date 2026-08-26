@@ -1,0 +1,7 @@
+{{ define "main" }}
+  {{/* Voeg hier eventuele globale scripts toe die je nodig hebt */}}
+  {{- .Scratch.Add "paginaScripts" (slice "js/complexiteitstabel.js") -}}
+
+  {{/* Render de inhoud van _index.html */}}
+  {{ .Content }}
+{{ end }}
