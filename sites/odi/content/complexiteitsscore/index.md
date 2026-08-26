@@ -3,4 +3,4 @@ title: "Complexiteitscore Invullen"
 type: "page"
 ---
 
-{{ partial "complexiteitstabel.html" . }}
+{{ partial "_partials/complexiteitstabel.html" . }}
