@@ -18,14 +18,14 @@
       <table class="nldd-table">
         <thead class="nldd-table__head">
           <tr>
-            <th scope="col" class="nldd-table__header">Nr.</th>
+            <th scope="col" class="nldd-table__header nr-header">Nr.</th>
             <th scope="col" class="nldd-table__header">Complexiteitsdimensie</th>
-            <th scope="col" class="nldd-table__header">Zeer laag (1)</th>
-            <th scope="col" class="nldd-table__header">Laag (2)</th>
-            <th scope="col" class="nldd-table__header">Hoog (3)</th>
-            <th scope="col" class="nldd-table__header">Zeer hoog (4)</th>
-            <th scope="col" class="nldd-table__header">Score</th>
-            <th scope="col" class="nldd-table__header">Toelichting (alleen bij 3 of 4)</th>
+            <th scope="col" class="nldd-table__header score-option-header">Zeer laag (1)</th>
+            <th scope="col" class="nldd-table__header score-option-header">Laag (2)</th>
+            <th scope="col" class="nldd-table__header score-option-header">Hoog (3)</th>
+            <th scope="col" class="nldd-table__header score-option-header">Zeer hoog (4)</th>
+            <th scope="col" class="nldd-table__header score-header">Score</th>
+            <th scope="col" class="nldd-table__header toelichting-header">Toelichting (verplicht bij 3 of 4)</th>
           </tr>
         </thead>
         <tbody class="nldd-table__body">
@@ -34,7 +34,7 @@
         <tfoot class="nldd-table__foot">
           <tr>
             <td colspan="6" class="nldd-table__cell"><strong>Totaalscore:</strong></td>
-            <td id="totaalscore" class="nldd-table__cell">0</td>
+            <td id="totaalscore" class="nldd-table__cell score-cell">0</td>
             <td class="nldd-table__cell"></td>
           </tr>
         </tfoot>
@@ -68,6 +68,33 @@
 
 <!-- CSS -->
 <style>
+  :root {
+    --table-bg-even: var(--nldd-color-grey-100, #f9f9f9);
+    --table-bg-hover: var(--nldd-color-grey-50, #f7f7f7);
+    --table-header-bg: var(--nldd-color-grey-200, #f2f2f2);
+    --table-border: var(--nldd-color-grey-300, #e0e0e0);
+    --text-color: var(--nldd-color-grey-800, #333);
+    --text-secondary: var(--nldd-color-grey-700, #555);
+    --primary-color: var(--nldd-color-primary, #0070f0);
+    --error-color: var(--nldd-color-error, #d32f2f);
+    --error-light: var(--nldd-color-error-light, #ffebee);
+  }
+
+  /* Darkmode ondersteuning */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --table-bg-even: var(--nldd-color-grey-800, #424242);
+      --table-bg-hover: var(--nldd-color-grey-700, #616161);
+      --table-header-bg: var(--nldd-color-grey-900, #212121);
+      --table-border: var(--nldd-color-grey-600, #757575);
+      --text-color: var(--nldd-color-grey-100, #f5f5f5);
+      --text-secondary: var(--nldd-color-grey-300, #e0e0e0);
+      --primary-color: var(--nldd-color-primary-light, #42a5f5);
+      --error-color: var(--nldd-color-error-light, #ef9a9a);
+      --error-light: rgba(239, 154, 154, 0.2);
+    }
+  }
+
   .complexiteitstabel-container {
     overflow-x: auto;
     margin-bottom: 1rem;
@@ -84,43 +111,80 @@
   }
 
   .nldd-table__head {
-    background-color: var(--nldd-color-grey-200, #f2f2f2);
+    background-color: var(--table-header-bg);
   }
 
   .nldd-table__header {
     padding: 12px 16px;
     text-align: left;
     font-weight: 600;
-    color: var(--nldd-color-grey-800, #333);
-    border-bottom: 2px solid var(--nldd-color-grey-300, #e0e0e0);
+    color: var(--text-color);
+    border-bottom: 2px solid var(--table-border);
     word-wrap: break-word;
   }
 
+  /* Specifieke kolombreedtes */
+  .nr-header {
+    width: 50px;
+    min-width: 50px;
+  }
+
+  .score-option-header {
+    width: 150px;
+    min-width: 150px;
+  }
+
+  .score-header {
+    width: 60px;
+    min-width: 60px;
+  }
+
+  .toelichting-header {
+    width: 200px;
+    min-width: 200px;
+  }
+
   .nldd-table__body tr:nth-child(even) {
-    background-color: var(--nldd-color-grey-100, #f9f9f9);
+    background-color: var(--table-bg-even);
   }
 
   .nldd-table__body tr:hover {
-    background-color: var(--nldd-color-grey-50, #f7f7f7);
+    background-color: var(--table-bg-hover);
   }
 
   .nldd-table__cell {
     padding: 12px 16px;
-    border-bottom: 1px solid var(--nldd-color-grey-300, #e0e0e0);
+    border-bottom: 1px solid var(--table-border);
     vertical-align: top;
-    min-width: 120px;
     word-wrap: break-word;
+  }
+
+  /* Specifieke celbreedtes */
+  .nldd-table__cell:nth-child(1) { /* Nr. kolom */
+    width: 50px;
+    min-width: 50px;
+  }
+
+  .nldd-table__cell:nth-child(7) { /* Score kolom */
+    width: 60px;
+    min-width: 60px;
+    text-align: center;
+  }
+
+  .nldd-table__cell:nth-child(8) { /* Toelichting kolom */
+    width: 200px;
+    min-width: 200px;
   }
 
   .nldd-table__foot {
     font-weight: 600;
-    background-color: var(--nldd-color-grey-100, #f9f9f9);
+    background-color: var(--table-bg-even);
   }
 
-  /* FIX: Radio buttons altijd zichtbaar houden */
+  /* Radio buttons altijd zichtbaar houden */
   .nldd-table input[type="radio"] {
     margin: 0 8px 0 0;
-    accent-color: var(--nldd-color-primary, #0070f0);
+    accent-color: var(--primary-color);
     opacity: 1 !important;
     appearance: auto !important;
     display: inline-block !important;
@@ -136,7 +200,7 @@
     display: inline-block;
     margin: 0;
     font-size: 0.875rem;
-    color: var(--nldd-color-grey-700, #555);
+    color: var(--text-secondary);
     line-height: 1.4;
     white-space: normal !important;
     word-break: normal !important;
@@ -145,18 +209,27 @@
   .nldd-table input[type="text"] {
     width: 100%;
     padding: 8px;
-    border: 1px solid var(--nldd-color-grey-400, #ccc);
+    border: 1px solid var(--table-border);
     border-radius: 4px;
     font-family: inherit;
     font-size: 0.875rem;
     box-sizing: border-box;
+    margin-top: 4px;
+    background-color: transparent;
+    color: var(--text-color);
+  }
+
+  /* Stijl voor verplichte toelichting (rood als leeg bij 3/4) */
+  .nldd-table input[type="text"].required-empty {
+    border-color: var(--error-color) !important;
+    background-color: var(--error-light) !important;
   }
 
   .beschrijving {
     display: inline-block;
     cursor: help;
     margin-left: 4px;
-    color: var(--nldd-color-primary, #0070f0);
+    color: var(--primary-color);
     font-size: 0.875rem;
     vertical-align: middle;
   }
@@ -171,8 +244,25 @@
       padding: 8px 12px;
       font-size: 0.875rem;
     }
-    .nldd-table {
-      font-size: 0.875rem;
+
+    .nr-header, .nldd-table__cell:nth-child(1) {
+      width: 40px;
+      min-width: 40px;
+    }
+
+    .score-option-header {
+      width: 120px;
+      min-width: 120px;
+    }
+
+    .score-header, .nldd-table__cell:nth-child(7) {
+      width: 50px;
+      min-width: 50px;
+    }
+
+    .toelichting-header, .nldd-table__cell:nth-child(8) {
+      width: 150px;
+      min-width: 150px;
     }
   }
 </style>
@@ -327,7 +417,7 @@
         radio.id = `score-${dimensie.nr}-${i}`;
         radio.addEventListener('change', updateScore);
 
-        // Extra inline stijlen om zeker te weten dat radio buttons zichtbaar blijven
+        // Extra inline stijlen
         radio.style.opacity = '1';
         radio.style.appearance = 'auto';
         radio.style.display = 'inline-block';
@@ -346,7 +436,7 @@
 
       // Score
       const scoreCell = document.createElement('td');
-      scoreCell.className = 'nldd-table__cell';
+      scoreCell.className = 'nldd-table__cell score-cell';
       scoreCell.id = `score-${dimensie.nr}-waarde`;
       scoreCell.textContent = '0';
       row.appendChild(scoreCell);
@@ -360,6 +450,7 @@
       toelichtingInput.dataset.dimensie = dimensie.nr;
       toelichtingInput.style.display = 'none';
       toelichtingInput.setAttribute('aria-label', `Toelichting voor dimensie ${dimensie.nr}`);
+      toelichtingInput.addEventListener('input', validateToelichting);
       toelichtingCell.appendChild(toelichtingInput);
       row.appendChild(toelichtingCell);
 
@@ -376,9 +467,30 @@
       if (scoreCell) scoreCell.textContent = score;
       if (toelichtingInput) {
         toelichtingInput.style.display = (score >= 3) ? 'block' : 'none';
-        if (score < 3) toelichtingInput.value = '';
+        if (score < 3) {
+          toelichtingInput.value = '';
+          toelichtingInput.classList.remove('required-empty');
+        } else {
+          // Als score 3 of 4 is, check of toelichting leeg is
+          validateToelichting({ target: toelichtingInput });
+        }
       }
       berekenTotaalscore();
+    }
+
+    // Functie om toelichting te valideren
+    function validateToelichting(event) {
+      const input = event.target;
+      const dimensieNr = input.dataset.dimensie;
+      const selectedRadio = document.querySelector(`input[name="score-${dimensieNr}"]:checked`);
+
+      if (selectedRadio && (parseInt(selectedRadio.value) >= 3)) {
+        if (input.value.trim() === '') {
+          input.classList.add('required-empty');
+        } else {
+          input.classList.remove('required-empty');
+        }
+      }
     }
 
     // Functie om totaalscore te berekenen
@@ -386,10 +498,14 @@
       let totaal = 0;
       dimensies.forEach(dimensie => {
         const selectedRadio = document.querySelector(`input[name="score-${dimensie.nr}"]:checked`);
-        if (selectedRadio) totaal += parseInt(selectedRadio.value);
+        if (selectedRadio) {
+          totaal += parseInt(selectedRadio.value);
+        }
       });
       const totaalscoreElement = document.getElementById('totaalscore');
-      if (totaalscoreElement) totaalscoreElement.textContent = totaal;
+      if (totaalscoreElement) {
+        totaalscoreElement.textContent = totaal;
+      }
     }
   });
 </script>
