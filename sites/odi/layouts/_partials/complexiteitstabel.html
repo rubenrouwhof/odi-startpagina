@@ -72,6 +72,7 @@
     overflow-x: auto;
     margin-bottom: 1rem;
   }
+
   .nldd-table {
     width: 100%;
     border-collapse: collapse;
@@ -79,36 +80,57 @@
     font-family: var(--nldd-font-family-sans-serif, sans-serif);
     font-size: var(--nldd-font-size-body, 1rem);
     line-height: var(--nldd-line-height-body, 1.5);
+    table-layout: fixed;
   }
+
   .nldd-table__head {
     background-color: var(--nldd-color-grey-200, #f2f2f2);
   }
+
   .nldd-table__header {
     padding: 12px 16px;
     text-align: left;
     font-weight: 600;
     color: var(--nldd-color-grey-800, #333);
     border-bottom: 2px solid var(--nldd-color-grey-300, #e0e0e0);
+    word-wrap: break-word;
   }
+
   .nldd-table__body tr:nth-child(even) {
     background-color: var(--nldd-color-grey-100, #f9f9f9);
   }
+
   .nldd-table__body tr:hover {
-    background-color: var(--nldd-color-grey-200, #f2f2f2);
+    background-color: var(--nldd-color-grey-50, #f7f7f7);
   }
+
   .nldd-table__cell {
     padding: 12px 16px;
     border-bottom: 1px solid var(--nldd-color-grey-300, #e0e0e0);
     vertical-align: top;
+    min-width: 120px;
+    word-wrap: break-word;
   }
+
   .nldd-table__foot {
     font-weight: 600;
     background-color: var(--nldd-color-grey-100, #f9f9f9);
   }
+
+  /* FIX: Radio buttons altijd zichtbaar houden */
   .nldd-table input[type="radio"] {
     margin: 0 8px 0 0;
     accent-color: var(--nldd-color-primary, #0070f0);
+    opacity: 1 !important;
+    appearance: auto !important;
+    display: inline-block !important;
+    width: auto !important;
+    height: auto !important;
+    position: relative !important;
+    z-index: 1 !important;
+    cursor: pointer;
   }
+
   .nldd-table label {
     cursor: pointer;
     display: inline-block;
@@ -116,7 +138,10 @@
     font-size: 0.875rem;
     color: var(--nldd-color-grey-700, #555);
     line-height: 1.4;
+    white-space: normal !important;
+    word-break: normal !important;
   }
+
   .nldd-table input[type="text"] {
     width: 100%;
     padding: 8px;
@@ -126,6 +151,7 @@
     font-size: 0.875rem;
     box-sizing: border-box;
   }
+
   .beschrijving {
     display: inline-block;
     cursor: help;
@@ -134,9 +160,11 @@
     font-size: 0.875rem;
     vertical-align: middle;
   }
+
   .beschrijving:hover {
     text-decoration: underline;
   }
+
   @media (max-width: 768px) {
     .nldd-table__header,
     .nldd-table__cell {
@@ -149,7 +177,7 @@
   }
 </style>
 
-<!-- JavaScript (gerepareerd) -->
+<!-- JavaScript -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const dimensies = [
@@ -266,6 +294,8 @@
     ];
 
     const tbody = document.querySelector('.nldd-table__body');
+
+    // Dynamisch rijtjes genereren
     dimensies.forEach(dimensie => {
       const row = document.createElement('tr');
 
@@ -297,9 +327,16 @@
         radio.id = `score-${dimensie.nr}-${i}`;
         radio.addEventListener('change', updateScore);
 
+        // Extra inline stijlen om zeker te weten dat radio buttons zichtbaar blijven
+        radio.style.opacity = '1';
+        radio.style.appearance = 'auto';
+        radio.style.display = 'inline-block';
+        radio.style.position = 'relative';
+        radio.style.zIndex = '1';
+
         const label = document.createElement('label');
         label.htmlFor = `score-${dimensie.nr}-${i}`;
-        label.textContent = dimensie.scores[i - 1].substring(0, 40) + (dimensie.scores[i - 1].length > 40 ? '...' : '');
+        label.textContent = dimensie.scores[i - 1];
         label.title = dimensie.scores[i - 1];
 
         scoreCell.appendChild(radio);
@@ -329,7 +366,7 @@
       tbody.appendChild(row);
     });
 
-    // Functies
+    // Functie om score bij te werken
     function updateScore(event) {
       const dimensieNr = event.target.dataset.dimensie;
       const score = parseInt(event.target.value);
@@ -344,6 +381,7 @@
       berekenTotaalscore();
     }
 
+    // Functie om totaalscore te berekenen
     function berekenTotaalscore() {
       let totaal = 0;
       dimensies.forEach(dimensie => {
