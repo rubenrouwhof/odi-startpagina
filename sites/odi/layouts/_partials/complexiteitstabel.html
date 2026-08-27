@@ -140,9 +140,6 @@
   .nldd-table__body tr:nth-child(even) {
     background-color: var(--table-bg-even);
   }
-  .nldd-table__body tr:hover {
-    background-color: var(--table-bg-hover);
-  }
   .nldd-table__cell {
     padding: 12px 16px;
     border-bottom: 1px solid var(--table-border);
@@ -480,7 +477,7 @@
         const selectedRadio = document.querySelector(`input[name="score-${dimensie.nr}"]:checked`);
         if (selectedRadio) {
           const score = parseInt(selectedRadio.value);
-          if (!isNaN(score)) { // Controleer of de score een geldig getal is
+          if (!isNaN(score)) {
             totaal += score;
           }
         }
