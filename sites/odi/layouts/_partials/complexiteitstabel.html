@@ -439,6 +439,7 @@
       row.appendChild(toelichtingCell);
       tbody.appendChild(row);
     });
+
     // Functie om score bij te werken
     function updateScore(event) {
       const dimensieNr = event.target.dataset.dimensie;
@@ -452,12 +453,12 @@
           toelichtingInput.value = '';
           toelichtingInput.classList.remove('required-empty');
         } else {
-          // Als score 3 of 4 is, check of toelichting leeg is
           validateToelichting({ target: toelichtingInput });
         }
       }
       berekenTotaalscore();
     }
+
     // Functie om toelichting te valideren
     function validateToelichting(event) {
       const input = event.target;
@@ -471,13 +472,17 @@
         }
       }
     }
-    // Functie om totaalscore te berekenen
+
+    // Functie om totaalscore te berekenen (aangepast om NaN te voorkomen)
     function berekenTotaalscore() {
       let totaal = 0;
       dimensies.forEach(dimensie => {
         const selectedRadio = document.querySelector(`input[name="score-${dimensie.nr}"]:checked`);
         if (selectedRadio) {
-          totaal += parseInt(selectedRadio.value);
+          const score = parseInt(selectedRadio.value);
+          if (!isNaN(score)) { // Controleer of de score een geldig getal is
+            totaal += score;
+          }
         }
       });
       const totaalscoreElement = document.getElementById('totaalscore');
