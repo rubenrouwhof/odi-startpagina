@@ -93,6 +93,7 @@
   .complexiteitstabel-container {
     overflow-x: auto;
     margin-bottom: 1rem;
+    max-width: 100%;
   }
   .nldd-table {
     width: 100%;
@@ -101,7 +102,8 @@
     font-family: var(--nldd-font-family-sans-serif, sans-serif);
     font-size: var(--nldd-font-size-body, 1rem);
     line-height: var(--nldd-line-height-body, 1.5);
-    table-layout: fixed;
+    table-layout: auto;
+    min-width: 1200px;
   }
   .nldd-table__head {
     background-color: var(--table-header-bg);
@@ -121,12 +123,12 @@
     text-align: center;
   }
   .nldd-table__header:nth-child(2) { /* Complexiteitsdimensie */
-    width: 300px;
-    min-width: 300px;
+    width: 250px;
+    min-width: 250px;
   }
   .score-option-header {
-    width: 120px;
-    min-width: 120px;
+    width: 100px;
+    min-width: 100px;
   }
   .score-header {
     width: 60px;
@@ -134,8 +136,8 @@
     text-align: center;
   }
   .toelichting-header {
-    width: 250px;
-    min-width: 250px;
+    width: 200px;
+    min-width: 200px;
   }
   .nldd-table__body tr:nth-child(even) {
     background-color: var(--table-bg-even);
@@ -153,15 +155,15 @@
     text-align: center;
   }
   .nldd-table__cell:nth-child(2) { /* Complexiteitsdimensie */
-    width: 300px;
-    min-width: 300px;
+    width: 250px;
+    min-width: 250px;
   }
   .nldd-table__cell:nth-child(3),
   .nldd-table__cell:nth-child(4),
   .nldd-table__cell:nth-child(5),
   .nldd-table__cell:nth-child(6) { /* Score-opties (1-4) */
-    width: 120px;
-    min-width: 120px;
+    width: 100px;
+    min-width: 100px;
   }
   .nldd-table__cell:nth-child(7) { /* Score kolom */
     width: 60px;
@@ -169,8 +171,8 @@
     text-align: center;
   }
   .nldd-table__cell:nth-child(8) { /* Toelichting kolom */
-    width: 250px;
-    min-width: 250px;
+    width: 200px;
+    min-width: 200px;
   }
   .nldd-table__foot {
     font-weight: 600;
@@ -189,11 +191,12 @@
     z-index: 1 !important;
     cursor: pointer;
   }
+  /* Lettertype voor score-optie-labels verkleind */
   .nldd-table label {
     cursor: pointer;
     display: inline-block;
     margin: 0;
-    font-size: 0.875rem;
+    font-size: 0.75rem; /* 12px */
     color: var(--text-secondary);
     line-height: 1.4;
     white-space: normal !important;
@@ -228,6 +231,9 @@
     text-decoration: underline;
   }
   @media (max-width: 768px) {
+    .nldd-table {
+      min-width: 0;
+    }
     .nldd-table__header,
     .nldd-table__cell {
       padding: 8px 12px;
@@ -238,24 +244,28 @@
       min-width: 30px;
     }
     .nldd-table__header:nth-child(2), .nldd-table__cell:nth-child(2) {
-      width: 200px;
-      min-width: 200px;
+      width: 150px;
+      min-width: 150px;
     }
     .score-option-header,
     .nldd-table__cell:nth-child(3),
     .nldd-table__cell:nth-child(4),
     .nldd-table__cell:nth-child(5),
     .nldd-table__cell:nth-child(6) {
-      width: 100px;
-      min-width: 100px;
+      width: 80px;
+      min-width: 80px;
     }
     .score-header, .nldd-table__cell:nth-child(7) {
       width: 50px;
       min-width: 50px;
     }
     .toelichting-header, .nldd-table__cell:nth-child(8) {
-      width: 150px;
-      min-width: 150px;
+      width: 120px;
+      min-width: 120px;
+    }
+    /* Lettertype voor labels op mobiel iets groter voor leesbaarheid */
+    .nldd-table label {
+      font-size: 0.7rem; /* 11.2px op mobiel */
     }
   }
 </style>
@@ -470,7 +480,7 @@
       }
     }
 
-    // Functie om totaalscore te berekenen (aangepast om NaN te voorkomen)
+    // Functie om totaalscore te berekenen
     function berekenTotaalscore() {
       let totaal = 0;
       dimensies.forEach(dimensie => {
