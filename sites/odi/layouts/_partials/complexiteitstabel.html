@@ -1,501 +1,503 @@
-<nldd-card background="tinted" accessible-label="Complexiteitscore invullen">
-  <nldd-container padding="24">
-    <nldd-title size="3">
-      <h2>Complexiteitscore invullen</h2>
-    </nldd-title>
-    <nldd-spacer size="16"></nldd-spacer>
-    <nldd-rich-text>
-      <p>
-        Scoor bij elk project alle complexiteitsdimensies op een schaal van
-        <strong>1 (zeer lage complexiteit)</strong> tot <strong>4 (zeer hoge complexiteit)</strong>.
-        De maximale score is 10 × 4 = 40.
-      </p>
-    </nldd-rich-text>
-    <nldd-spacer size="24"></nldd-spacer>
-    <!-- Tabel -->
-    <div class="complexiteitstabel-container">
-      <table class="nldd-table">
-        <thead class="nldd-table__head">
-          <tr>
-            <th scope="col" class="nldd-table__header nr-header">Nr.</th>
-            <th scope="col" class="nldd-table__header">Complexiteitsdimensie</th>
-            <th scope="col" class="nldd-table__header score-option-header">Zeer laag (1)</th>
-            <th scope="col" class="nldd-table__header score-option-header">Laag (2)</th>
-            <th scope="col" class="nldd-table__header score-option-header">Hoog (3)</th>
-            <th scope="col" class="nldd-table__header score-option-header">Zeer hoog (4)</th>
-            <th scope="col" class="nldd-table__header score-header">Score</th>
-            <th scope="col" class="nldd-table__header toelichting-header">Toelichting (verplicht bij 3 of 4)</th>
-          </tr>
-        </thead>
-        <tbody class="nldd-table__body">
-          <!-- Dimensies worden dynamisch gegenereerd via JavaScript -->
-        </tbody>
-        <tfoot class="nldd-table__foot">
-          <tr>
-            <td colspan="6" class="nldd-table__cell"><strong>Totaalscore:</strong></td>
-            <td id="totaalscore" class="nldd-table__cell score-cell">0</td>
-            <td class="nldd-table__cell"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-    <nldd-spacer size="24"></nldd-spacer>
-    <nldd-container background="tinted" padding="16">
-      <nldd-title size="4">
-        <h3>Toelichting hoge scores (3 of 4)</h3>
-      </nldd-title>
-      <nldd-spacer size="8"></nldd-spacer>
-      <nldd-rich-text>
-        <p>
-          Voor elk project dient u bij een score van 3 of 4 op een complexiteitsdimensie een korte toelichting te geven.
-          Vul het projectnummer in, het nummer van de complexiteitsdimensie, uw score en de toelichting in onderstaand vak.
-        </p>
-        <p>
-          <strong>Projectcomplexiteit is het resultaat van vier aspecten:</strong>
-        </p>
-        <ol>
-          <li><strong>Aantallen:</strong> Hoe meer teamleden, teams, uren, (deel)projecten, stakeholders, risico’s etc., hoe complexer.</li>
-          <li><strong>Variëteit:</strong> Hoe meer verschillen in rol, belangen, cultuur, locatie etc., hoe complexer.</li>
-          <li><strong>Afhankelijkheid:</strong> Hoe meer wederzijdse afhankelijkheden en strijdigheden, hoe complexer.</li>
-          <li><strong>Onvoorspelbaarheid:</strong> Hoe vager of veranderlijker de doelen, resultaten, risico’s etc., hoe complexer.</li>
-        </ol>
-      </nldd-rich-text>
-    </nldd-container>
-  </nldd-container>
-</nldd-card>
-<!-- CSS -->
-<style>
-  :root {
-    --table-bg-even: var(--nldd-color-grey-100, #f9f9f9);
-    --table-bg-hover: var(--nldd-color-grey-50, #f7f7f7);
-    --table-header-bg: var(--nldd-color-grey-200, #f2f2f2);
-    --table-border: var(--nldd-color-grey-300, #e0e0e0);
-    --text-color: var(--nldd-color-grey-800, #333);
-    --text-secondary: var(--nldd-color-grey-700, #555);
-    --primary-color: var(--nldd-color-primary, #0070f0);
-    --error-color: var(--nldd-color-error, #d32f2f);
-    --error-light: var(--nldd-color-error-light, #ffebee);
-  }
-  /* Darkmode ondersteuning */
-  @media (prefers-color-scheme: dark) {
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complexiteitscore invullen</title>
+  <style>
     :root {
-      --table-bg-even: var(--nldd-color-grey-800, #424242);
-      --table-bg-hover: var(--nldd-color-grey-700, #616161);
-      --table-header-bg: var(--nldd-color-grey-900, #212121);
-      --table-border: var(--nldd-color-grey-600, #757575);
-      --text-color: var(--nldd-color-grey-100, #f5f5f5);
-      --text-secondary: var(--nldd-color-grey-300, #e0e0e0);
-      --primary-color: var(--nldd-color-primary-light, #42a5f5);
-      --error-color: var(--nldd-color-error-light, #ef9a9a);
-      --error-light: rgba(239, 154, 154, 0.2);
+      --table-bg-even: #f9f9f9;
+      --table-bg-hover: #f7f7f7;
+      --table-header-bg: #f2f2f2;
+      --table-border: #e0e0e0;
+      --text-color: #333;
+      --text-secondary: #555;
+      --primary-color: #0070f0;
+      --error-color: #d32f2f;
+      --error-light: #ffebee;
     }
-  }
-  .complexiteitstabel-container {
-    overflow-x: auto;
-    margin-bottom: 1rem;
-    max-width: 100%;
-  }
-  .nldd-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 0;
-    font-family: var(--nldd-font-family-sans-serif, sans-serif);
-    font-size: var(--nldd-font-size-body, 1rem);
-    line-height: var(--nldd-line-height-body, 1.5);
-    table-layout: auto;
-    min-width: 1200px;
-  }
-  .nldd-table__head {
-    background-color: var(--table-header-bg);
-  }
-  .nldd-table__header {
-    padding: 12px 16px;
-    text-align: left;
-    font-weight: 600;
-    color: var(--text-color);
-    border-bottom: 2px solid var(--table-border);
-    word-wrap: break-word;
-  }
-  /* Specifieke kolombreedtes */
-  .nr-header {
-    width: 30px;
-    min-width: 30px;
-    text-align: center;
-  }
-  .nldd-table__header:nth-child(2) { /* Complexiteitsdimensie */
-    width: 250px;
-    min-width: 250px;
-  }
-  .score-option-header {
-    width: 100px;
-    min-width: 100px;
-  }
-  .score-header {
-    width: 60px;
-    min-width: 60px;
-    text-align: center;
-  }
-  .toelichting-header {
-    width: 200px;
-    min-width: 200px;
-  }
-  .nldd-table__body tr:nth-child(even) {
-    background-color: var(--table-bg-even);
-  }
-  .nldd-table__cell {
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--table-border);
-    vertical-align: top;
-    word-wrap: break-word;
-  }
-  /* Specifieke celbreedtes */
-  .nldd-table__cell:nth-child(1) { /* Nr. kolom */
-    width: 30px;
-    min-width: 30px;
-    text-align: center;
-  }
-  .nldd-table__cell:nth-child(2) { /* Complexiteitsdimensie */
-    width: 250px;
-    min-width: 250px;
-  }
-  .nldd-table__cell:nth-child(3),
-  .nldd-table__cell:nth-child(4),
-  .nldd-table__cell:nth-child(5),
-  .nldd-table__cell:nth-child(6) { /* Score-opties (1-4) */
-    width: 100px;
-    min-width: 100px;
-  }
-  .nldd-table__cell:nth-child(7) { /* Score kolom */
-    width: 60px;
-    min-width: 60px;
-    text-align: center;
-  }
-  .nldd-table__cell:nth-child(8) { /* Toelichting kolom */
-    width: 200px;
-    min-width: 200px;
-  }
-  .nldd-table__foot {
-    font-weight: 600;
-    background-color: var(--table-bg-even);
-  }
-  /* Radio buttons altijd zichtbaar houden */
-  .nldd-table input[type="radio"] {
-    margin: 0 8px 0 0;
-    accent-color: var(--primary-color);
-    opacity: 1 !important;
-    appearance: auto !important;
-    display: inline-block !important;
-    width: auto !important;
-    height: auto !important;
-    position: relative !important;
-    z-index: 1 !important;
-    cursor: pointer;
-  }
-  /* Lettertype voor score-optie-labels verkleind */
-  .nldd-table label {
-    cursor: pointer;
-    display: inline-block;
-    margin: 0;
-    font-size: 0.75rem; /* 12px */
-    color: var(--text-secondary);
-    line-height: 1.4;
-    white-space: normal !important;
-    word-break: normal !important;
-  }
-  .nldd-table input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid var(--table-border);
-    border-radius: 4px;
-    font-family: inherit;
-    font-size: 0.875rem;
-    box-sizing: border-box;
-    margin-top: 4px;
-    background-color: transparent;
-    color: var(--text-color);
-  }
-  /* Stijl voor verplichte toelichting (rood als leeg bij 3/4) */
-  .nldd-table input[type="text"].required-empty {
-    border-color: var(--error-color) !important;
-    background-color: var(--error-light) !important;
-  }
-  .beschrijving {
-    display: inline-block;
-    cursor: help;
-    margin-left: 4px;
-    color: var(--primary-color);
-    font-size: 0.875rem;
-    vertical-align: middle;
-  }
-  .beschrijving:hover {
-    text-decoration: underline;
-  }
-  @media (max-width: 768px) {
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #fff;
+    }
+    .complexiteitstabel-container {
+      overflow-x: auto;
+      margin-bottom: 20px;
+    }
     .nldd-table {
-      min-width: 0;
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: auto;
     }
-    .nldd-table__header,
-    .nldd-table__cell {
-      padding: 8px 12px;
-      font-size: 0.875rem;
+    .nldd-table__head {
+      background-color: var(--table-header-bg);
     }
-    .nr-header, .nldd-table__cell:nth-child(1) {
-      width: 30px;
-      min-width: 30px;
+    .nldd-table__header {
+      padding: 12px;
+      text-align: left;
+      font-weight: bold;
+      color: var(--text-color);
+      border-bottom: 2px solid var(--table-border);
     }
-    .nldd-table__header:nth-child(2), .nldd-table__cell:nth-child(2) {
-      width: 150px;
+    .nr-header, .nr-cell {
+      width: 5%;
+      min-width: 50px;
+      text-align: center;
+    }
+    .naam-header, .naam-cell {
+      width: 25%;
       min-width: 150px;
     }
-    .score-option-header,
-    .nldd-table__cell:nth-child(3),
-    .nldd-table__cell:nth-child(4),
-    .nldd-table__cell:nth-child(5),
-    .nldd-table__cell:nth-child(6) {
-      width: 80px;
-      min-width: 80px;
+    .slider-header, .slider-cell {
+      width: 35%;
+      min-width: 200px;
     }
-    .score-header, .nldd-table__cell:nth-child(7) {
-      width: 50px;
-      min-width: 50px;
+    .score-header, .score-cell {
+      width: 5%;
+      min-width: 60px;
+      text-align: center;
     }
-    .toelichting-header, .nldd-table__cell:nth-child(8) {
-      width: 120px;
-      min-width: 120px;
+    .toelichting-header, .toelichting-cell {
+      width: 30%;
+      min-width: 150px;
     }
-    /* Lettertype voor labels op mobiel iets groter voor leesbaarheid */
-    .nldd-table label {
-      font-size: 0.7rem; /* 11.2px op mobiel */
+    .nldd-table__body tr:nth-child(even) {
+      background-color: var(--table-bg-even);
     }
-  }
-</style>
-<!-- JavaScript -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const dimensies = [
-      {
-        nr: 1,
-        naam: "Output-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: vage, veeleisende en/of onderling tegenstrijdige doelen, eisen en/of verwachtingen.",
-        scores: [
-          "Er zijn amper vage, tegenstrijdige en/of veranderende doelen en/of eisen binnen het project.",
-          "Het project heeft last van vage, tegenstrijdige en/of veranderende doelen en/of eisen op afdelings- of divisieniveau binnen de eigen organisatie.",
-          "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig van de hoogste niveaus binnen de eigen organisatie.",
-          "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig vanuit de hoogste niveaus van meerdere organisaties."
-        ]
-      },
-      {
-        nr: 2,
-        naam: "Procesgerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden.",
-        scores: [
-          "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen zijn afdoende.",
-          "Het aantal taken loopt in de tientallen, kennisintensieve werkuren > 1.000, meerdere deelprojecten.",
-          "Het aantal taken loopt in de honderden, ‘blue collar’ werkuren > 30.000 en/of kennisintensieve werkuren > 6.000.",
-          "Het aantal taken loopt in de duizendtallen, ‘blue collar’ werkuren > 100.000 en/of kennisintensieve werkuren > 30.000."
-        ]
-      },
-      {
-        nr: 3,
-        naam: "Input-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het verwerven en financieren van budgetten, diversiteit van middelen.",
-        scores: [
-          "Financiering en inkoop worden door de organisatie geregeld. Beschikbaarheid van teammedewerkers is geen probleem.",
-          "Beschikbaarheid van teammedewerkers vormt een uitdaging. Financiering is aanvankelijk niet duidelijk.",
-          "Financiering moet tijdens het project geborgd worden. Externe financiering wordt gebruikt.",
-          "Verwerving- en inkoopstrategieën zijn uitdagend en vernieuwend."
-        ]
-      },
-      {
-        nr: 4,
-        naam: "Risico-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: het risicoprofiel en onzekerheidsniveaus.",
-        scores: [
-          "Risicoprofiel wordt actief gemanaged. Belangrijkste risico’s zijn bij aanvang bekend.",
-          "Risicoprofiel heeft aandacht op afdelingsniveau. Niet alle risico’s zijn bij aanvang bekend.",
-          "Risicoprofiel heeft aandacht op hoogste niveau. Risico’s zijn niet allemaal bij aanvang bekend.",
-          "Risicoprofiel heeft directe impact op de strategie. Risico’s zijn niet goed in te schatten."
-        ]
-      },
-      {
-        nr: 5,
-        naam: "Strategie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: invloed van strategie, normen, voorschriften en beleidsmaatregelen.",
-        scores: [
-          "Project wordt gerealiseerd binnen bestaande strategie, weinig politiek of weerstand.",
-          "Project heeft last van politiek, informele invloed en weerstand.",
-          "Project betreft implementatie van nieuwe strategie met veel politiek en weerstand.",
-          "Project definieert nieuwe strategie met veel politiek en weerstand op hoogste niveau."
-        ]
-      },
-      {
-        nr: 6,
-        naam: "Organisatie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: raakvlakken met systemen, structuren en processen.",
-        scores: [
-          "Project wordt in geringe mate geraakt door systemen en structuren.",
-          "Project wordt intensief geraakt door systemen en structuren.",
-          "Project introduceert nieuwe systemen en structuren.",
-          "Project introduceert nieuwe systemen en structuren in meerdere organisaties."
-        ]
-      },
-      {
-        nr: 7,
-        naam: "Sociaal-culturele complexiteit",
-        beschrijving: "Complexiteit ontstaan door: sociaal-culturele dynamiek.",
-        scores: [
-          "Alle deelnemers hebben dezelfde achtergrond en/of één locatie.",
-          "Enkele deelnemers met verschillende achtergronden en/of meerdere locaties.",
-          "Meerdere deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen.",
-          "Veel deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen en tijdzones."
-        ]
-      },
-      {
-        nr: 8,
-        naam: "Team-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: eisen aan management en leiderschap.",
-        scores: [
-          "Één team of enkele teams die samenwerken.",
-          "Meerdere teams die niet altijd taakvolwassen samenwerken.",
-          "Meerdere gedistribueerde teams met verschillende volwassenheid.",
-          "Vele gedistribueerde teams in meerdere organisaties."
-        ]
-      },
-      {
-        nr: 9,
-        naam: "Innovatie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: technische innovatie.",
-        scores: [
-          "Bestaande technieken en methoden worden gebruikt.",
-          "Project is innovatief, maar organisatie heeft ervaring met de technologie.",
-          "Project gebruikt innovatie die nieuw is voor de organisatie.",
-          "Project gebruikt baanbrekende innovatie met onvoorspelbare resultaten."
-        ]
-      },
-      {
-        nr: 10,
-        naam: "Autonomie-gerelateerde complexiteit",
-        beschrijving: "Complexiteit ontstaan door: mate van autonomie en verantwoordelijkheid.",
-        scores: [
-          "Projectmanager rapporteert aan opdrachtgever, weinig participatie in besluitvorming.",
-          "Projectmanager bereidt besluitvorming voor en verdedigt belangen binnen de organisatie.",
-          "Projectmanager rapporteert aan hoog niveau, invloed in besluitvorming.",
-          "Projectmanager rapporteert aan hoogste niveau, wederzijdse beïnvloeding."
-        ]
+    .nldd-table__cell {
+      padding: 12px;
+      border-bottom: 1px solid var(--table-border);
+      vertical-align: top;
+    }
+    .nldd-table__foot {
+      font-weight: bold;
+      background-color: var(--table-bg-even);
+    }
+    /* Slider styles */
+    .slider-container {
+      width: 100%;
+      min-width: 200px;
+      margin: 8px 0;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 4px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+    .slider-label {
+      text-align: center;
+      flex: 1;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+    }
+    .slider-label:hover {
+      background-color: var(--table-bg-hover);
+    }
+    .slider-label.active {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: bold;
+    }
+    .slider {
+      width: 100%;
+      height: 8px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--table-border);
+      border-radius: 4px;
+      outline: none;
+      margin: 8px 0;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      cursor: pointer;
+      border: 2px solid white;
+    }
+    .slider-description {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 8px;
+      background-color: var(--table-bg-even);
+      border-radius: 4px;
+      text-align: center;
+      border-left: 3px solid var(--primary-color);
+    }
+    .current-score {
+      font-size: 0.9rem;
+      font-weight: bold;
+      color: var(--primary-color);
+      text-align: center;
+      margin: 4px 0;
+    }
+    /* Toelichting input */
+    .nldd-table input[type="text"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid var(--table-border);
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-top: 4px;
+    }
+    .nldd-table input[type="text"].required-empty {
+      border-color: var(--error-color) !important;
+      background-color: var(--error-light) !important;
+    }
+    .beschrijving {
+      cursor: help;
+      margin-left: 4px;
+      color: var(--primary-color);
+    }
+    @media (max-width: 768px) {
+      .nldd-table__header, .nldd-table__cell {
+        padding: 8px;
+        font-size: 0.9rem;
       }
-    ];
-    const tbody = document.querySelector('.nldd-table__body');
-    // Dynamisch rijtjes genereren
-    dimensies.forEach(dimensie => {
-      const row = document.createElement('tr');
-      // Nr.
-      const nrCell = document.createElement('td');
-      nrCell.className = 'nldd-table__cell';
-      nrCell.textContent = dimensie.nr;
-      row.appendChild(nrCell);
-      // Naam + beschrijving
-      const naamCell = document.createElement('td');
-      naamCell.className = 'nldd-table__cell';
-      naamCell.innerHTML = `
-        <strong>${dimensie.naam}</strong>
-        <span class="beschrijving" title="${dimensie.beschrijving.replace(/"/g, '&quot;')}">ℹ️</span>
-      `;
-      row.appendChild(naamCell);
-      // Score-opties (1-4)
-      for (let i = 1; i <= 4; i++) {
-        const scoreCell = document.createElement('td');
-        scoreCell.className = 'nldd-table__cell';
-        const radio = document.createElement('input');
-        radio.type = 'radio';
-        radio.name = `score-${dimensie.nr}`;
-        radio.value = i;
-        radio.dataset.dimensie = dimensie.nr;
-        radio.id = `score-${dimensie.nr}-${i}`;
-        radio.addEventListener('change', updateScore);
-        // Extra inline stijlen
-        radio.style.opacity = '1';
-        radio.style.appearance = 'auto';
-        radio.style.display = 'inline-block';
-        radio.style.position = 'relative';
-        radio.style.zIndex = '1';
-        const label = document.createElement('label');
-        label.htmlFor = `score-${dimensie.nr}-${i}`;
-        label.textContent = dimensie.scores[i - 1];
-        label.title = dimensie.scores[i - 1];
-        scoreCell.appendChild(radio);
-        scoreCell.appendChild(label);
-        row.appendChild(scoreCell);
+      .slider-cell {
+        min-width: 180px;
       }
-      // Score
-      const scoreCell = document.createElement('td');
-      scoreCell.className = 'nldd-table__cell score-cell';
-      scoreCell.id = `score-${dimensie.nr}-waarde`;
-      scoreCell.textContent = '0';
-      row.appendChild(scoreCell);
-      // Toelichting
-      const toelichtingCell = document.createElement('td');
-      toelichtingCell.className = 'nldd-table__cell';
-      const toelichtingInput = document.createElement('input');
-      toelichtingInput.type = 'text';
-      toelichtingInput.placeholder = 'Toelichting (verplicht bij 3 of 4)';
-      toelichtingInput.dataset.dimensie = dimensie.nr;
-      toelichtingInput.style.display = 'none';
-      toelichtingInput.setAttribute('aria-label', `Toelichting voor dimensie ${dimensie.nr}`);
-      toelichtingInput.addEventListener('input', validateToelichting);
-      toelichtingCell.appendChild(toelichtingInput);
-      row.appendChild(toelichtingCell);
-      tbody.appendChild(row);
-    });
+    }
+  </style>
+</head>
+<body>
+  <h1>Complexiteitscore invullen</h1>
+  <p>
+    Scoor bij elk project alle complexiteitsdimensies op een schaal van
+    <strong>1 (zeer lage complexiteit)</strong> tot <strong>4 (zeer hoge complexiteit)</strong>.
+    De maximale score is 10 × 4 = 40.
+  </p>
+  <div class="complexiteitstabel-container">
+    <table class="nldd-table">
+      <thead class="nldd-table__head">
+        <tr>
+          <th scope="col" class="nldd-table__header nr-header">Nr.</th>
+          <th scope="col" class="nldd-table__header naam-header">Complexiteitsdimensie</th>
+          <th scope="col" class="nldd-table__header slider-header">Score (1-4)</th>
+          <th scope="col" class="nldd-table__header score-header">Score</th>
+          <th scope="col" class="nldd-table__header toelichting-header">Toelichting (verplicht bij 3 of 4)</th>
+        </tr>
+      </thead>
+      <tbody class="nldd-table__body">
+        <!-- Dimensies worden dynamisch gegenereerd -->
+      </tbody>
+      <tfoot class="nldd-table__foot">
+        <tr>
+          <td colspan="3"><strong>Totaalscore:</strong></td>
+          <td id="totaalscore" class="score-cell">0</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div style="margin-top: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+    <h3>Toelichting hoge scores (3 of 4)</h3>
+    <p>
+      Voor elk project dient u bij een score van 3 of 4 op een complexiteitsdimensie een korte toelichting te geven.
+    </p>
+    <p>
+      <strong>Projectcomplexiteit is het resultaat van vier aspecten:</strong>
+    </p>
+    <ol>
+      <li><strong>Aantallen:</strong> Hoe meer teamleden, teams, uren, (deel)projecten, stakeholders, risico's etc., hoe complexer.</li>
+      <li><strong>Variëteit:</strong> Hoe meer verschillen in rol, belangen, cultuur, locatie etc., hoe complexer.</li>
+      <li><strong>Afhankelijkheid:</strong> Hoe meer wederzijdse afhankelijkheden en strijdigheden, hoe complexer.</li>
+      <li><strong>Onvoorspelbaarheid:</strong> Hoe vager of veranderlijker de doelen, resultaten, risico's etc., hoe complexer.</li>
+    </ol>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const dimensies = [
+        {
+          nr: 1,
+          naam: "Output-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: vage, veeleisende en/of onderling tegenstrijdige doelen, eisen en/of verwachtingen.",
+          scores: [
+            "Er zijn amper vage, tegenstrijdige en/of veranderende doelen en/of eisen binnen het project.",
+            "Het project heeft last van vage, tegenstrijdige en/of veranderende doelen en/of eisen op afdelings- of divisieniveau binnen de eigen organisatie.",
+            "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig van de hoogste niveaus binnen de eigen organisatie.",
+            "Het project wordt in ernstige mate geraakt door vage, tegenstrijdige en/of veranderende doelen en/of eisen. Deze zijn ook afkomstig vanuit de hoogste niveaus van meerdere organisaties."
+          ]
+        },
+        {
+          nr: 2,
+          naam: "Procesgerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden.",
+          scores: [
+            "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen zijn afdoende.",
+            "Het aantal taken loopt in de tientallen, kennisintensieve werkuren > 1.000, meerdere deelprojecten.",
+            "Het aantal taken loopt in de honderden, 'blue collar' werkuren > 30.000 en/of kennisintensieve werkuren > 6.000.",
+            "Het aantal taken loopt in de duizendtallen, 'blue collar' werkuren > 100.000 en/of kennisintensieve werkuren > 30.000."
+          ]
+        },
+        {
+          nr: 3,
+          naam: "Input-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: het verwerven en financieren van budgetten, diversiteit van middelen.",
+          scores: [
+            "Financiering en inkoop worden door de organisatie geregeld. Beschikbaarheid van teammedewerkers is geen probleem.",
+            "Beschikbaarheid van teammedewerkers vormt een uitdaging. Financiering is aanvankelijk niet duidelijk.",
+            "Financiering moet tijdens het project geborgd worden. Externe financiering wordt gebruikt.",
+            "Verwerving- en inkoopstrategieën zijn uitdagend en vernieuwend."
+          ]
+        },
+        {
+          nr: 4,
+          naam: "Risico-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: het risicoprofiel en onzekerheidsniveaus.",
+          scores: [
+            "Risicoprofiel wordt actief gemanaged. Belangrijkste risico's zijn bij aanvang bekend.",
+            "Risicoprofiel heeft aandacht op afdelingsniveau. Niet alle risico's zijn bij aanvang bekend.",
+            "Risicoprofiel heeft aandacht op hoogste niveau. Risico's zijn niet allemaal bij aanvang bekend.",
+            "Risicoprofiel heeft directe impact op de strategie. Risico's zijn niet goed in te schatten."
+          ]
+        },
+        {
+          nr: 5,
+          naam: "Strategie-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: invloed van strategie, normen, voorschriften en beleidsmaatregelen.",
+          scores: [
+            "Project wordt gerealiseerd binnen bestaande strategie, weinig politiek of weerstand.",
+            "Project heeft last van politiek, informele invloed en weerstand.",
+            "Project betreft implementatie van nieuwe strategie met veel politiek en weerstand.",
+            "Project definieert nieuwe strategie met veel politiek en weerstand op hoogste niveau."
+          ]
+        },
+        {
+          nr: 6,
+          naam: "Organisatie-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: raakvlakken met systemen, structuren en processen.",
+          scores: [
+            "Project wordt in geringe mate geraakt door systemen en structuren.",
+            "Project wordt intensief geraakt door systemen en structuren.",
+            "Project introduceert nieuwe systemen en structuren.",
+            "Project introduceert nieuwe systemen en structuren in meerdere organisaties."
+          ]
+        },
+        {
+          nr: 7,
+          naam: "Sociaal-culturele complexiteit",
+          beschrijving: "Complexiteit ontstaan door: sociaal-culturele dynamiek.",
+          scores: [
+            "Alle deelnemers hebben dezelfde achtergrond en/of één locatie.",
+            "Enkele deelnemers met verschillende achtergronden en/of meerdere locaties.",
+            "Meerdere deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen.",
+            "Veel deelnemers met zeer verschillende achtergronden en/of locaties in meerdere landen en tijdzones."
+          ]
+        },
+        {
+          nr: 8,
+          naam: "Team-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: eisen aan management en leiderschap.",
+          scores: [
+            "Één team of enkele teams die samenwerken.",
+            "Meerdere teams die niet altijd taakvolwassen samenwerken.",
+            "Meerdere gedistribueerde teams met verschillende volwassenheid.",
+            "Vele gedistribueerde teams in meerdere organisaties."
+          ]
+        },
+        {
+          nr: 9,
+          naam: "Innovatie-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: technische innovatie.",
+          scores: [
+            "Bestaande technieken en methoden worden gebruikt.",
+            "Project is innovatief, maar organisatie heeft ervaring met de technologie.",
+            "Project gebruikt innovatie die nieuw is voor de organisatie.",
+            "Project gebruikt baanbrekende innovatie met onvoorspelbare resultaten."
+          ]
+        },
+        {
+          nr: 10,
+          naam: "Autonomie-gerelateerde complexiteit",
+          beschrijving: "Complexiteit ontstaan door: mate van autonomie en verantwoordelijkheid.",
+          scores: [
+            "Projectmanager rapporteert aan opdrachtgever, weinig participatie in besluitvorming.",
+            "Projectmanager bereidt besluitvorming voor en verdedigt belangen binnen de organisatie.",
+            "Projectmanager rapporteert aan hoog niveau, invloed in besluitvorming.",
+            "Projectmanager rapporteert aan hoogste niveau, wederzijdse beïnvloeding."
+          ]
+        }
+      ];
 
-    // Functie om score bij te werken
-    function updateScore(event) {
-      const dimensieNr = event.target.dataset.dimensie;
-      const score = parseInt(event.target.value);
-      const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
-      const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
-      if (scoreCell) scoreCell.textContent = score;
-      if (toelichtingInput) {
-        toelichtingInput.style.display = (score >= 3) ? 'block' : 'none';
-        if (score < 3) {
-          toelichtingInput.value = '';
-          toelichtingInput.classList.remove('required-empty');
-        } else {
+      const tbody = document.querySelector('.nldd-table__body');
+
+      dimensies.forEach(dimensie => {
+        const row = document.createElement('tr');
+
+        // Nr.
+        const nrCell = document.createElement('td');
+        nrCell.className = 'nldd-table__cell nr-cell';
+        nrCell.textContent = dimensie.nr;
+        row.appendChild(nrCell);
+
+        // Naam + beschrijving
+        const naamCell = document.createElement('td');
+        naamCell.className = 'nldd-table__cell naam-cell';
+        naamCell.innerHTML = `
+          <strong>${dimensie.naam}</strong>
+          <span class="beschrijving" title="${dimensie.beschrijving.replace(/"/g, '&quot;')}">ℹ️</span>
+        `;
+        row.appendChild(naamCell);
+
+        // Slider kolom
+        const sliderCell = document.createElement('td');
+        sliderCell.className = 'nldd-table__cell slider-cell';
+
+        const sliderContainer = document.createElement('div');
+        sliderContainer.className = 'slider-container';
+
+        // Huidige score weergave
+        const currentScore = document.createElement('div');
+        currentScore.className = 'current-score';
+        currentScore.id = `current-score-${dimensie.nr}`;
+        currentScore.textContent = 'Huidige score: 1';
+        sliderContainer.appendChild(currentScore);
+
+        // Slider labels (1, 2, 3, 4)
+        const sliderLabels = document.createElement('div');
+        sliderLabels.className = 'slider-labels';
+        for (let i = 1; i <= 4; i++) {
+          const label = document.createElement('span');
+          label.className = 'slider-label';
+          label.textContent = i;
+          label.dataset.value = i;
+          label.dataset.dimensie = dimensie.nr;
+          label.addEventListener('click', function() {
+            const slider = document.getElementById(`slider-${dimensie.nr}`);
+            if (slider) {
+              slider.value = i;
+              updateSlider({ target: slider });
+            }
+          });
+          sliderLabels.appendChild(label);
+        }
+
+        // Slider input
+        const slider = document.createElement('input');
+        slider.type = 'range';
+        slider.min = '1';
+        slider.max = '4';
+        slider.value = '1';
+        slider.step = '1';
+        slider.className = 'slider';
+        slider.dataset.dimensie = dimensie.nr;
+        slider.id = `slider-${dimensie.nr}`;
+        slider.addEventListener('input', updateSlider);
+
+        // Slider beschrijving
+        const sliderDescription = document.createElement('div');
+        sliderDescription.className = 'slider-description';
+        sliderDescription.id = `slider-desc-${dimensie.nr}`;
+        sliderDescription.textContent = dimensie.scores[0];
+
+        sliderContainer.appendChild(sliderLabels);
+        sliderContainer.appendChild(slider);
+        sliderContainer.appendChild(sliderDescription);
+        sliderCell.appendChild(sliderContainer);
+        row.appendChild(sliderCell);
+
+        // Score
+        const scoreCell = document.createElement('td');
+        scoreCell.className = 'nldd-table__cell score-cell';
+        scoreCell.id = `score-${dimensie.nr}-waarde`;
+        scoreCell.textContent = '1';
+        row.appendChild(scoreCell);
+
+        // Toelichting (altijd zichtbaar)
+        const toelichtingCell = document.createElement('td');
+        toelichtingCell.className = 'nldd-table__cell toelichting-cell';
+        const toelichtingInput = document.createElement('input');
+        toelichtingInput.type = 'text';
+        toelichtingInput.placeholder = 'Toelichting (verplicht bij 3 of 4)';
+        toelichtingInput.dataset.dimensie = dimensie.nr;
+        toelichtingInput.addEventListener('input', validateToelichting);
+        toelichtingCell.appendChild(toelichtingInput);
+        row.appendChild(toelichtingCell);
+
+        tbody.appendChild(row);
+      });
+
+      function updateSlider(event) {
+        const slider = event.target;
+        const dimensieNr = slider.dataset.dimensie;
+        const score = parseInt(slider.value);
+
+        // Update score weergave
+        const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
+        const currentScoreElement = document.getElementById(`current-score-${dimensieNr}`);
+        const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
+        const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
+        const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
+
+        if (scoreCell) scoreCell.textContent = score;
+        if (currentScoreElement) currentScoreElement.textContent = `Huidige score: ${score}`;
+
+        // Toelichting validatie
+        if (toelichtingInput) {
           validateToelichting({ target: toelichtingInput });
         }
-      }
-      berekenTotaalscore();
-    }
 
-    // Functie om toelichting te valideren
-    function validateToelichting(event) {
-      const input = event.target;
-      const dimensieNr = input.dataset.dimensie;
-      const selectedRadio = document.querySelector(`input[name="score-${dimensieNr}"]:checked`);
-      if (selectedRadio && (parseInt(selectedRadio.value) >= 3)) {
-        if (input.value.trim() === '') {
-          input.classList.add('required-empty');
+        // Activeer het juiste label
+        sliderLabels.forEach(label => {
+          label.classList.toggle('active', parseInt(label.dataset.value) === score);
+        });
+
+        // Update beschrijving
+        const dimensie = dimensies.find(d => d.nr == dimensieNr);
+        if (dimensie && sliderDescription) {
+          sliderDescription.textContent = dimensie.scores[score - 1];
+        }
+
+        berekenTotaalscore();
+      }
+
+      function validateToelichting(event) {
+        const input = event.target;
+        const dimensieNr = input.dataset.dimensie;
+        const slider = document.getElementById(`slider-${dimensieNr}`);
+
+        if (slider && (parseInt(slider.value) >= 3)) {
+          if (input.value.trim() === '') {
+            input.classList.add('required-empty');
+          } else {
+            input.classList.remove('required-empty');
+          }
         } else {
           input.classList.remove('required-empty');
         }
       }
-    }
 
-    // Functie om totaalscore te berekenen
-    function berekenTotaalscore() {
-      let totaal = 0;
-      dimensies.forEach(dimensie => {
-        const selectedRadio = document.querySelector(`input[name="score-${dimensie.nr}"]:checked`);
-        if (selectedRadio) {
-          const score = parseInt(selectedRadio.value);
-          if (!isNaN(score)) {
-            totaal += score;
+      function berekenTotaalscore() {
+        let totaal = 0;
+        dimensies.forEach(dimensie => {
+          const slider = document.getElementById(`slider-${dimensie.nr}`);
+          if (slider) {
+            totaal += parseInt(slider.value);
           }
+        });
+        const totaalscoreElement = document.getElementById('totaalscore');
+        if (totaalscoreElement) {
+          totaalscoreElement.textContent = totaal;
         }
-      });
-      const totaalscoreElement = document.getElementById('totaalscore');
-      if (totaalscoreElement) {
-        totaalscoreElement.textContent = totaal;
       }
-    }
-  });
-</script>
+    });
+  </script>
+</body>
+</html>
