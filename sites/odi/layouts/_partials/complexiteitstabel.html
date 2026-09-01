@@ -18,6 +18,8 @@
       --slider-bg: #e0e0e0;
       --input-border: #e0e0e0;
       --input-bg: #ffffff;
+      --button-bg: #0070f0;
+      --button-text: #ffffff;
     }
 
     @media (prefers-color-scheme: dark) {
@@ -34,6 +36,8 @@
         --slider-bg: #404040;
         --input-border: #404040;
         --input-bg: #2d2d2d;
+        --button-bg: #4dabf7;
+        --button-text: #ffffff;
       }
     }
 
@@ -187,14 +191,6 @@
       border-left: 3px solid var(--primary-color);
     }
 
-    .current-score {
-      font-size: 0.9rem;
-      font-weight: bold;
-      color: var(--primary-color);
-      text-align: center;
-      margin: 4px 0;
-    }
-
     /* Toelichting input */
     .nldd-table input[type="text"] {
       width: 100%;
@@ -222,6 +218,56 @@
       color: var(--primary-color);
     }
 
+    /* Opslaan knop */
+    .save-button {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 20px;
+      margin-bottom: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .save-button:hover {
+      opacity: 0.9;
+    }
+
+    .save-message {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      display: none;
+    }
+
+    .save-message.success {
+      background-color: #d4edda;
+      color: #155724;
+      display: block;
+    }
+
+    .save-message.error {
+      background-color: #f8d7da;
+      color: #721c24;
+      display: block;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .save-message.success {
+        background-color: #1a3a1a;
+        color: #d4edda;
+      }
+
+      .save-message.error {
+        background-color: #491a1d;
+        color: #f8d7da;
+      }
+    }
+
     @media (max-width: 768px) {
       .nldd-table__header, .nldd-table__cell {
         padding: 8px;
@@ -240,6 +286,10 @@
     <strong>1 (zeer lage complexiteit)</strong> tot <strong>4 (zeer hoge complexiteit)</strong>.
     De maximale score is 10 × 4 = 40.
   </p>
+
+  <button class="save-button" id="saveButton">Opslaan</button>
+  <div class="save-message" id="saveMessage"></div>
+
   <div class="complexiteitstabel-container">
     <table class="nldd-table">
       <thead class="nldd-table__head">
@@ -263,6 +313,7 @@
       </tfoot>
     </table>
   </div>
+
   <div style="margin-top: 20px; padding: 15px; background-color: var(--table-bg-hover); border-radius: 5px; color: var(--text-color);">
     <h3>Toelichting hoge scores (3 of 4)</h3>
     <p>
@@ -278,6 +329,7 @@
       <li><strong>Onvoorspelbaarheid:</strong> Hoe vager of veranderlijker de doelen, resultaten, risico's etc., hoe complexer.</li>
     </ol>
   </div>
+
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const dimensies = [
@@ -394,6 +446,11 @@
       ];
 
       const tbody = document.querySelector('.nldd-table__body');
+      const saveButton = document.getElementById('saveButton');
+      const saveMessage = document.getElementById('saveMessage');
+
+      // Laad opgeslagen gegevens bij het starten
+      loadSavedData();
 
       dimensies.forEach(dimensie => {
         const row = document.createElement('tr');
@@ -419,13 +476,6 @@
 
         const sliderContainer = document.createElement('div');
         sliderContainer.className = 'slider-container';
-
-        // Huidige score weergave
-        const currentScore = document.createElement('div');
-        currentScore.className = 'current-score';
-        currentScore.id = `current-score-${dimensie.nr}`;
-        currentScore.textContent = 'Huidige score: 1';
-        sliderContainer.appendChild(currentScore);
 
         // Slider labels (1, 2, 3, 4)
         const sliderLabels = document.createElement('div');
@@ -491,6 +541,9 @@
         tbody.appendChild(row);
       });
 
+      // Opslaan functionaliteit
+      saveButton.addEventListener('click', saveData);
+
       function updateSlider(event) {
         const slider = event.target;
         const dimensieNr = slider.dataset.dimensie;
@@ -498,13 +551,11 @@
 
         // Update score weergave
         const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
-        const currentScoreElement = document.getElementById(`current-score-${dimensieNr}`);
         const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
         const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
         const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
 
         if (scoreCell) scoreCell.textContent = score;
-        if (currentScoreElement) currentScoreElement.textContent = `Huidige score: ${score}`;
 
         // Toelichting validatie
         if (toelichtingInput) {
@@ -553,6 +604,84 @@
         if (totaalscoreElement) {
           totaalscoreElement.textContent = totaal;
         }
+      }
+
+      function saveData() {
+        // Controleer of alle verplichte toelichtingen zijn ingevuld
+        let hasErrors = false;
+        dimensies.forEach(dimensie => {
+          const slider = document.getElementById(`slider-${dimensie.nr}`);
+          const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensie.nr}"]`);
+
+          if (slider && parseInt(slider.value) >= 3 && toelichtingInput.value.trim() === '') {
+            hasErrors = true;
+            toelichtingInput.classList.add('required-empty');
+          }
+        });
+
+        if (hasErrors) {
+          showMessage('Vul a.u.b. alle verplichte toelichtingen in (bij score 3 of 4).', 'error');
+          return;
+        }
+
+        // Verzamel alle gegevens
+        const data = {
+          timestamp: new Date().toISOString(),
+          scores: [],
+          totaalscore: document.getElementById('totaalscore').textContent
+        };
+
+        dimensies.forEach(dimensie => {
+          const slider = document.getElementById(`slider-${dimensie.nr}`);
+          const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensie.nr}"]`);
+
+          data.scores.push({
+            nr: dimensie.nr,
+            naam: dimensie.naam,
+            score: slider ? parseInt(slider.value) : 1,
+            toelichting: toelichtingInput ? toelichtingInput.value : ''
+          });
+        });
+
+        // Sla op in localStorage
+        try {
+          localStorage.setItem('complexiteitscoreData', JSON.stringify(data));
+          showMessage('Gegevens succesvol opgeslagen in je browser!', 'success');
+        } catch (e) {
+          showMessage('Fout bij opslaan: ' + e.message, 'error');
+        }
+      }
+
+      function loadSavedData() {
+        try {
+          const savedData = localStorage.getItem('complexiteitscoreData');
+          if (savedData) {
+            const data = JSON.parse(savedData);
+
+            // Vul de sliders en toelichtingen in
+            data.scores.forEach(score => {
+              const slider = document.getElementById(`slider-${score.nr}`);
+              const toelichtingInput = document.querySelector(`input[data-dimensie="${score.nr}"]`);
+
+              if (slider) {
+                slider.value = score.score;
+                updateSlider({ target: slider });
+              }
+              if (toelichtingInput) {
+                toelichtingInput.value = score.toelichting;
+              }
+            });
+
+            showMessage('Eerdere gegevens geladen.', 'success');
+          }
+        } catch (e) {
+          console.error('Fout bij laden opgeslagen gegevens:', e);
+        }
+      }
+
+      function showMessage(message, type) {
+        saveMessage.textContent = message;
+        saveMessage.className = `save-message ${type}`;
       }
     });
   </script>
