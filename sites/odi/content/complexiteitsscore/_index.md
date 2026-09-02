@@ -1,6 +1,6 @@
 ---
 title: "Complexiteitscore Invullen"
-type: "page"
+type: "complexiteitsscore"
 ---
 
-Deze complexiteitsscore pagina is gebaseerd op de IPMA classificatie (IPMA Certificeren)[hercertificering-ipma-b-projectmanagement-invulinstructie-v4-1.pdf] - en helpt bij het inschatten van de complexiteit van een project/programma. 
+Deze complexiteitsscore pagina is gebaseerd op de IPMA classificatie (IPMA Certificeren)[hercertificering-ipma-b-projectmanagement-invulinstructie-v4-1.pdf] - en helpt bij het inschatten van de complexiteit van een project/programma.
