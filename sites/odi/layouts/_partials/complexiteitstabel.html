@@ -203,16 +203,18 @@
     }
     /* Verberg de slider-thumb als de waarde 0 is */
     .slider.value-0::-webkit-slider-thumb {
-      opacity: 0;
-      pointer-events: none;
       width: 0;
       height: 0;
+      border: none;
+      pointer-events: none;
+      opacity: 0;
     }
     .slider.value-0::-moz-range-thumb {
-      opacity: 0;
-      pointer-events: none;
       width: 0;
       height: 0;
+      border: none;
+      pointer-events: none;
+      opacity: 0;
     }
     .slider-description {
       font-size: 0.8rem;
@@ -309,7 +311,6 @@
   </div>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Dimensies uit het Excel-bestand
       const dimensies = [
         {
           nr: 1,
@@ -438,24 +439,18 @@
       const loadButton = document.getElementById('loadButton');
       const saveMessage = document.getElementById('saveMessage');
 
-      // Laad opgeslagen gegevens bij het starten
       loadSavedData();
-
-      // Knoppen koppelen
       saveButton.addEventListener('click', saveData);
       loadButton.addEventListener('click', loadSavedData);
 
-      // Tabel vullen met dimensies
       dimensies.forEach(dimensie => {
         const row = document.createElement('tr');
 
-        // Nr.
         const nrCell = document.createElement('td');
         nrCell.className = 'nldd-table__cell nr-cell';
         nrCell.textContent = dimensie.nr;
         row.appendChild(nrCell);
 
-        // Naam + beschrijving
         const naamCell = document.createElement('td');
         naamCell.className = 'nldd-table__cell naam-cell';
         naamCell.innerHTML = `
@@ -464,13 +459,11 @@
         `;
         row.appendChild(naamCell);
 
-        // Slider kolom
         const sliderCell = document.createElement('td');
         sliderCell.className = 'nldd-table__cell slider-cell';
         const sliderContainer = document.createElement('div');
         sliderContainer.className = 'slider-container';
 
-        // Slider labels (1, 2, 3, 4)
         const sliderLabels = document.createElement('div');
         sliderLabels.className = 'slider-labels';
         for (let i = 1; i <= 4; i++) {
@@ -489,19 +482,17 @@
           sliderLabels.appendChild(label);
         }
 
-        // Slider input
         const slider = document.createElement('input');
         slider.type = 'range';
         slider.min = '0';
         slider.max = '4';
         slider.value = '0';
         slider.step = '1';
-        slider.className = 'slider';
+        slider.className = 'slider value-0';
         slider.dataset.dimensie = dimensie.nr;
         slider.id = `slider-${dimensie.nr}`;
         slider.addEventListener('input', updateSlider);
 
-        // Slider beschrijving
         const sliderDescription = document.createElement('div');
         sliderDescription.className = 'slider-description';
         sliderDescription.id = `slider-desc-${dimensie.nr}`;
@@ -513,14 +504,12 @@
         sliderCell.appendChild(sliderContainer);
         row.appendChild(sliderCell);
 
-        // Score
         const scoreCell = document.createElement('td');
         scoreCell.className = 'nldd-table__cell score-cell';
         scoreCell.id = `score-${dimensie.nr}-waarde`;
         scoreCell.textContent = '0';
         row.appendChild(scoreCell);
 
-        // Toelichting (altijd zichtbaar)
         const toelichtingCell = document.createElement('td');
         toelichtingCell.className = 'nldd-table__cell toelichting-cell';
         const toelichtingInput = document.createElement('input');
@@ -539,28 +528,20 @@
         const dimensieNr = slider.dataset.dimensie;
         const score = parseInt(slider.value);
 
-        // Update CSS-class voor verborgen thumb bij 0
         slider.classList.toggle('value-0', score === 0);
 
-        // Update score weergave
         const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
         const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
         const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
         const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
 
         if (scoreCell) scoreCell.textContent = score;
+        if (toelichtingInput) validateToelichting({ target: toelichtingInput });
 
-        // Toelichting validatie
-        if (toelichtingInput) {
-          validateToelichting({ target: toelichtingInput });
-        }
-
-        // Activeer het juiste label (alleen voor 1-4)
         sliderLabels.forEach(label => {
           label.classList.toggle('active', parseInt(label.dataset.value) === score);
         });
 
-        // Update beschrijving
         const dimensie = dimensies.find(d => d.nr == dimensieNr);
         if (dimensie && sliderDescription) {
           sliderDescription.textContent = dimensie.scores[score];
@@ -574,12 +555,8 @@
         const dimensieNr = input.dataset.dimensie;
         const slider = document.getElementById(`slider-${dimensieNr}`);
 
-        if (slider && (parseInt(slider.value) >= 3)) {
-          if (input.value.trim() === '') {
-            input.classList.add('required-empty');
-          } else {
-            input.classList.remove('required-empty');
-          }
+        if (slider && parseInt(slider.value) >= 3) {
+          input.classList.toggle('required-empty', input.value.trim() === '');
         } else {
           input.classList.remove('required-empty');
         }
@@ -589,18 +566,13 @@
         let totaal = 0;
         dimensies.forEach(dimensie => {
           const slider = document.getElementById(`slider-${dimensie.nr}`);
-          if (slider) {
-            totaal += parseInt(slider.value);
-          }
+          if (slider) totaal += parseInt(slider.value);
         });
         const totaalscoreElement = document.getElementById('totaalscore');
-        if (totaalscoreElement) {
-          totaalscoreElement.textContent = totaal;
-        }
+        if (totaalscoreElement) totaalscoreElement.textContent = totaal;
       }
 
       function saveData() {
-        // Controleer of alle verplichte toelichtingen zijn ingevuld
         let hasErrors = false;
         dimensies.forEach(dimensie => {
           const slider = document.getElementById(`slider-${dimensie.nr}`);
@@ -616,7 +588,6 @@
           return;
         }
 
-        // Verzamel alle gegevens
         const data = {
           timestamp: new Date().toISOString(),
           projectnaam: prompt("Voer de projectnaam in:", "Mijn Project") || "Onbekend project",
@@ -635,7 +606,6 @@
           });
         });
 
-        // Sla op in localStorage
         try {
           localStorage.setItem('complexiteitscoreData', JSON.stringify(data));
           showMessage(`Gegevens voor "${data.projectnaam}" succesvol opgeslagen in je browser!`, 'success');
@@ -649,7 +619,6 @@
           const savedData = localStorage.getItem('complexiteitscoreData');
           if (savedData) {
             const data = JSON.parse(savedData);
-            // Vul de sliders en toelichtingen in
             data.scores.forEach(score => {
               const slider = document.getElementById(`slider-${score.nr}`);
               const toelichtingInput = document.querySelector(`input[data-dimensie="${score.nr}"]`);
