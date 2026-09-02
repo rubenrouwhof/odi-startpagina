@@ -2,11 +2,6 @@
   {{/* Render de inhoud van _index.md */}}
   {{ .Content }}
 
-  {{/* Voeg hier eventuele globale scripts toe die je nodig hebt */}}
-  {{- .Scratch.Add "paginaScripts" (slice "js/complexiteitstabel.js") -}}
-
-  {{/* Laad de scripts */}}
-  {{ range .Scratch.Get "paginaScripts" }}
-    <script src="{{ . | relURL }}"></script>
-  {{ end }}
+  {{/* Laad de partial voor de complexiteitstabel */}}
+  {{ partial "complexiteitstabel.html" . }}
 {{ end }}
