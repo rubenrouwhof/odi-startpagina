@@ -1,0 +1,16 @@
+# De vakgroepen van het ODI. Dit is de indeling die de organisatie zelf
+# hanteert; Wies gebruikt dezelfde termen om collega's op vindbaar te maken.
+#
+# Sleutel = slug (URL en frontmatter), naam = weergave.
+# Houd deze lijst gelijk aan die in Wies: de waarde zit erin dat de kennisbank
+# en het collega-overzicht dezelfde taal spreken.
+
+- slug: /ppm-centrum/
+  naam: Project en Programma  Centrum
+  omschrijving: Aanpak, sturing en beheersing van programma's en projecten.
+- slug: architectuur
+  naam: Architectuur
+  omschrijving: Referentiearchitecturen, ontwerpprincipes en technologiekeuzes.
+- slug: /advies
+  naam: Advies
+  omschrijving: I-advies team
