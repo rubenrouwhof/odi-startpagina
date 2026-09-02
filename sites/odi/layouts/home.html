@@ -22,10 +22,10 @@
     {{- end -}}
   </nldd-collection>
 </nldd-simple-section>
-{{/* Vakgroepen en Expertises sectie (horizontale lay-out) */}}
+{{/* Vakgroepen en Expertises sectie (naast elkaar) */}}
 <nldd-simple-section padding-top="0">
-  <nldd-grid>
-    <nldd-grid-cell span="6">
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <div style="flex: 1; min-width: 300px;">
       <nldd-title size="2">
         <h2>Vakgroepen</h2>
       </nldd-title>
@@ -43,8 +43,8 @@
         </nldd-list-item>
         {{- end -}}
       </nldd-list>
-    </nldd-grid-cell>
-    <nldd-grid-cell span="6">
+    </div>
+    <div style="flex: 1; min-width: 300px;">
       <nldd-title size="2">
         <h2>Expertises binnen ODI</h2>
       </nldd-title>
@@ -65,10 +65,10 @@
         </nldd-list-item>
         {{- end -}}
       </nldd-list>
-    </nldd-grid-cell>
-  </nldd-grid>
+    </div>
+  </div>
 </nldd-simple-section>
-{{/* Thema sectie (nieuwe, afgesloten sectie) */}}
+{{/* Thema sectie */}}
 <nldd-simple-section padding-top="0">
   <nldd-title size="2" slot="header">
     <h2>Themas</h2>
