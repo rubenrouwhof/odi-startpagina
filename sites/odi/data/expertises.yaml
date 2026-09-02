@@ -5,9 +5,6 @@
 # Houd deze lijst gelijk aan die in Wies: de waarde zit erin dat de kennisbank
 # en het collega-overzicht dezelfde taal spreken.
 
-- slug: /ppm-centrum/
-  naam: Project en Programma  Centrum
-  omschrijving: Aanpak, sturing en beheersing van programma's en projecten.
 - slug: ai
   naam: AI
   omschrijving: Kunstmatige intelligentie, generatieve AI en algoritmes.
@@ -17,9 +14,6 @@
 - slug: cloud-en-platform-technologie
   naam: Cloud en platform technologie
   omschrijving: Cloudstrategie, platformen en infrastructuur.
-- slug: ict
-  naam: ICT
-  omschrijving: Algemene ICT-onderwerpen en voorzieningen.
 - slug: interimmanagement-en-advies
   naam: Interimmanagement en advies
   omschrijving: Tijdelijke inzet op management- en adviesvraagstukken.
@@ -35,9 +29,6 @@
 - slug: security-en-privacy
   naam: Security en privacy
   omschrijving: Informatiebeveiliging, AVG en gegevensbescherming.
-- slug: software-en-data-engineering
-  naam: Software en data engineering
-  omschrijving: Softwareontwikkeling, data-infrastructuur en engineering.
 - slug: strategie-beleid-governance-en-compliance
   naam: Strategie, beleid, governance en compliance
   omschrijving: Koers bepalen, kaders stellen en toezien op naleving.
