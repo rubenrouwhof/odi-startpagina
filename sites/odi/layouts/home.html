@@ -2,7 +2,7 @@
 {{- $expertises := hugo.Data.expertises -}}
 {{- $bronnen := hugo.Data.bronnen -}}
 {{- $themas := hugo.Data.themas -}}
-
+{{- $vakgroepen := hugo.Data.vakgroepen -}}
 <nldd-simple-section id="hoofdinhoud">
   <nldd-title size="1">
     <h1>{{ site.Title }}</h1>
@@ -12,7 +12,6 @@
     <p>{{ site.Params.description }}</p>
   </nldd-rich-text>
 </nldd-simple-section>
-
 <nldd-simple-section padding-top="0">
   <nldd-title size="2" slot="header">
     <h2>Kennisbronnen</h2>
@@ -23,31 +22,52 @@
     {{- end -}}
   </nldd-collection>
 </nldd-simple-section>
-
-{{/* Expertises sectie (afgesloten) */}}
+{{/* Vakgroepen en Expertises sectie (horizontale lay-out) */}}
 <nldd-simple-section padding-top="0">
-  <nldd-title size="2" slot="header">
-    <h2>Expertises binnen ODI</h2>
-  </nldd-title>
-  <nldd-rich-text>
-    <p>
-      De expertisegebieden waarop het ODI werkt. Per gebied vind je kennis in de
-      Kennisbank en collega's in Wies.
-    </p>
-  </nldd-rich-text>
-  <nldd-spacer size="16"></nldd-spacer>
-  <nldd-list variant="box" accessible-label="Expertises binnen ODI">
-    {{- range $expertises -}}
-    <nldd-list-item
-      size="md"
-      type="link"
-      href="{{ (printf "expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
-      <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
-    </nldd-list-item>
-    {{- end -}}
-  </nldd-list>
+  <nldd-grid>
+    <nldd-grid-cell span="6">
+      <nldd-title size="2">
+        <h2>Vakgroepen</h2>
+      </nldd-title>
+      <nldd-rich-text>
+        <p>De vakgroepen waarbinnen het ODI werkt.</p>
+      </nldd-rich-text>
+      <nldd-spacer size="16"></nldd-spacer>
+      <nldd-list variant="box" accessible-label="Vakgroepen binnen ODI">
+        {{- range $vakgroepen -}}
+        <nldd-list-item
+          size="md"
+          type="link"
+          href="{{ (printf "vakgroepen/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+          <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
+        </nldd-list-item>
+        {{- end -}}
+      </nldd-list>
+    </nldd-grid-cell>
+    <nldd-grid-cell span="6">
+      <nldd-title size="2">
+        <h2>Expertises binnen ODI</h2>
+      </nldd-title>
+      <nldd-rich-text>
+        <p>
+          De expertisegebieden waarop het ODI werkt. Per gebied vind je kennis in de
+          Kennisbank en collega's in Wies.
+        </p>
+      </nldd-rich-text>
+      <nldd-spacer size="16"></nldd-spacer>
+      <nldd-list variant="box" accessible-label="Expertises binnen ODI">
+        {{- range $expertises -}}
+        <nldd-list-item
+          size="md"
+          type="link"
+          href="{{ (printf "expertises/%s" (replaceRE "^/|/$" "" .slug)) | relURL }}">
+          <nldd-text-cell text="{{ .naam }}" supporting-text="{{ .omschrijving }}"></nldd-text-cell>
+        </nldd-list-item>
+        {{- end -}}
+      </nldd-list>
+    </nldd-grid-cell>
+  </nldd-grid>
 </nldd-simple-section>
-
 {{/* Thema sectie (nieuwe, afgesloten sectie) */}}
 <nldd-simple-section padding-top="0">
   <nldd-title size="2" slot="header">
@@ -68,7 +88,6 @@
     {{- end -}}
   </nldd-list>
 </nldd-simple-section>
-
 <nldd-simple-section padding-top="0">
   <nldd-title size="2" slot="header">
     <h2>Handige tools</h2>
