@@ -1,7 +1,15 @@
 {{ define "main" }}
-  {{/* Render de inhoud van _index.md */}}
-  {{ .Content }}
+<nldd-simple-section id="hoofdinhoud">
+  <nldd-title size="1">
+    <h1>{{ .Title }}</h1>
+  </nldd-title>
+  <nldd-spacer size="16"></nldd-spacer>
+  <nldd-rich-text>
+    {{ .Content }}
+  </nldd-rich-text>
+</nldd-simple-section>
 
-  {{/* Laad de partial voor de complexiteitstabel */}}
+<nldd-simple-section padding-top="0">
   {{ partial "complexiteitstabel.html" . }}
+</nldd-simple-section>
 {{ end }}
