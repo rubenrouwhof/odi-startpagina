@@ -1,6 +1,9 @@
----
-title: PPM Centrum
----
+# PPM Centrum
+Welkom op de PPM Centrum pagina. Op deze pagina vindt je de eerste informatie over het PPM Centrum
+
+# Waar staat PPM Centrum voor?
+
+PPM Centrum staat voor Project- en ProgrammaManagement Centrum. Het brengt de expertise op dit onderwerp samen in één ODI-breed centrum. 
 
 # Welk klantprobleem lossen we op?
 
