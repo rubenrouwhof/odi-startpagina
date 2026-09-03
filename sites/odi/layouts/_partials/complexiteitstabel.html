@@ -252,10 +252,12 @@
       border-color: var(--error-color) !important;
       background-color: var(--error-light) !important;
     }
-    .beschrijving {
-      cursor: help;
-      margin-left: 4px;
-      color: var(--primary-color);
+    /* Stijl voor de dimensie-toelichting (kleiner lettertype) */
+    .dimensie-toelichting {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.3;
     }
     .toelichting-aspecten {
       margin-top: 20px;
@@ -325,7 +327,7 @@
         {
           nr: 1,
           naam: "Output-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: vage, veeleisende en/of onderling tegenstrijdige doelen, eisen en/of verwachtingen.",
+          beschrijving: "Complexiteit wordt bepaald door: vage, veeleisende en/of onderling tegenstrijdige doelen, eisen en/of verwachtingen.",
           scores: [
             "Maak een keuze",
             "Er zijn amper vage, tegenstrijdige en/of veranderende doelen en/of eisen binnen het project.",
@@ -337,7 +339,7 @@
         {
           nr: 2,
           naam: "Procesgerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden; de processen met de betreffende kwaliteitseisen; het team en communicatiestructuur en de beschikbaarheid van ondersteunende methoden, instrumenten en technieken.",
+          beschrijving: "Complexiteit wordt bepaald door: het aantal taken, aannames en beperkingen en hun onderlinge afhankelijkheden; de processen met de betreffende kwaliteitseisen; het team en communicatiestructuur en de beschikbaarheid van ondersteunende methoden, instrumenten en technieken.",
           scores: [
             "Maak een keuze",
             "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen van de organisatie zijn afdoende voor het project.",
@@ -349,7 +351,7 @@
         {
           nr: 3,
           naam: "Input-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: het verwerven en financieren van de nodige budgetten (eventueel uit meerdere bronnen); de diversiteit van of het gebrek aan middelen (zowel menselijke als andere); en de processen en activiteiten die nodig zijn om de financiële en resource aspecten, waaronder inkoop, te managen.",
+          beschrijving: "Complexiteit wordt bepaald door: het verwerven en financieren van de nodige budgetten (eventueel uit meerdere bronnen); de diversiteit van of het gebrek aan middelen (zowel menselijke als andere); en de processen en activiteiten die nodig zijn om de financiële en resource aspecten, waaronder inkoop, te managen.",
           scores: [
             "Maak een keuze",
             "Financiering, verwerving en inkoop worden door de staande organisatie geregeld. Beschikbaarheid van geschikte teammedewerkers is geen groot probleem.",
@@ -361,7 +363,7 @@
         {
           nr: 4,
           naam: "Risico-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: het risicoprofiel en de onzekerheidsniveaus van het project en de daar van afhankelijke initiatieven.",
+          beschrijving: "Complexiteit wordt bepaald door: het risicoprofiel en de onzekerheidsniveaus van het project en de daar van afhankelijke initiatieven.",
           scores: [
             "Maak een keuze",
             "Het risicoprofiel (inclusief HSSE aspecten) wordt actief gemanaged binnen het project. De belangrijkste risico’s zijn bij aanvang van het project bekend.",
@@ -373,7 +375,7 @@
         {
           nr: 5,
           naam: "Strategie-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: de invloed van de formele strategie van de sponsorende organisatie(s), de normen, voorschriften, informele strategieën en beleidsmaatregelen die het project kunnen beïnvloeden; het belang van het eindresultaat voor de organisatie, de mate van overeenstemming tussen de belanghebbenden; de informele invloed, belangen en weerstand rond het project; en eventuele vereisten van wettelijke of regulerende aard.",
+          beschrijving: "Complexiteit wordt bepaald door: de invloed van de formele strategie van de sponsorende organisatie(s), de normen, voorschriften, informele strategieën en beleidsmaatregelen die het project kunnen beïnvloeden; het belang van het eindresultaat voor de organisatie, de mate van overeenstemming tussen de belanghebbenden; de informele invloed, belangen en weerstand rond het project; en eventuele vereisten van wettelijke of regulerende aard.",
           scores: [
             "Maak een keuze",
             "Het project wordt gerealiseerd binnen een bestaande strategie, waarbij er geen of slechts in beperkte mate sprake was van politiek, informele invloed en weerstand.",
@@ -385,7 +387,7 @@
         {
           nr: 6,
           naam: "Organisatie-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: het aantal en de verstrengeling van de raakvlakken tussen het project met de systemen, de structuren en de rapportage- en besluitvormingsprocessen van de organisatie(s).",
+          beschrijving: "Complexiteit wordt bepaald door: het aantal en de verstrengeling van de raakvlakken tussen het project met de systemen, de structuren en de rapportage- en besluitvormingsprocessen van de organisatie(s).",
           scores: [
             "Maak een keuze",
             "Het project wordt in geringe mate geraakt door systemen, structuren en/of rapportage- en besluitvormingsprocessen binnen de organisatie.",
@@ -397,7 +399,7 @@
         {
           nr: 7,
           naam: "Sociaal-culturele complexiteit",
-          beschrijving: "Complexiteit ontstaan door: de sociaal-culturele dynamiek. Deze kan onder meer bestaan uit de raakvlakken met deelnemers, belanghebbenden of organisaties van verschillende sociaal-culturele achtergronden, of het te maken krijgen met verspreide teams.",
+          beschrijving: "Complexiteit wordt bepaald door: de sociaal-culturele dynamiek. Deze kan onder meer bestaan uit de raakvlakken met deelnemers, belanghebbenden of organisaties van verschillende sociaal-culturele achtergronden, of het te maken krijgen met verspreide teams.",
           scores: [
             "Maak een keuze",
             "Alle deelnemers aan het project hebben dezelfde sociaal-culturele achtergrond en/of er is sprake van één locatie.",
@@ -409,7 +411,7 @@
         {
           nr: 8,
           naam: "Team-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door: de eisen aan het management en leiderschap binnen het project. Het gaat hier om de complexiteit die ontstaat door de wisselwerking van de team(s) en hun volwassenheid en de daarmee verband houdende mate van visie, begeleiding en aansturing die de team(s) nodig hebben om te leveren.",
+          beschrijving: "Complexiteit wordt bepaald door: de eisen aan het management en leiderschap binnen het project. Het gaat hier om de complexiteit die ontstaat door de wisselwerking van de team(s) en hun volwassenheid en de daarmee verband houdende mate van visie, begeleiding en aansturing die de team(s) nodig hebben om te leveren.",
           scores: [
             "Maak een keuze",
             "Binnen het project is er één team of zijn er enkele teams die onderling moeten samenwerken. De teams zijn voor hun taak berekend.",
@@ -421,7 +423,7 @@
         {
           nr: 9,
           naam: "Innovatie-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door de mate van technische innovatie binnen het project. Dit omvat bereidheid tot leren en de bijbehorende vindingrijkheid die nodig is om te innoveren en/of om te werken met onbekende resultaten, benaderingen, processen, instrumenten en/of methoden.",
+          beschrijving: "Complexiteit wordt bepaald door: de mate van technische innovatie binnen het project. Dit omvat bereidheid tot leren en de bijbehorende vindingrijkheid die nodig is om te innoveren en/of om te werken met onbekende resultaten, benaderingen, processen, instrumenten en/of methoden.",
           scores: [
             "Maak een keuze",
             "Binnen het project worden vooral bestaande technieken en methoden gebruikt.",
@@ -433,7 +435,7 @@
         {
           nr: 10,
           naam: "Autonomie-gerelateerde complexiteit",
-          beschrijving: "Complexiteit ontstaan door de mate van autonomie en verantwoordelijkheid die aan de projectmanager is gegeven, of door hem/haar genomen of getoond wordt. Dit manifesteert zich in de coördinatie, de communicatie, het bevorderen en het verdedigen van de belangen van het project bij anderen.",
+          beschrijving: "Complexiteit wordt bepaald door: de mate van autonomie en verantwoordelijkheid die aan de projectmanager is gegeven, of door hem/haar genomen of getoond wordt. Dit manifesteert zich in de coördinatie, de communicatie, het bevorderen en het verdedigen van de belangen van het project bij anderen.",
           scores: [
             "Maak een keuze",
             "De projectmanager rapporteert aan een opdrachtgever/stuurgroep. Er is in geringe mate sprake van participatie in besluitvorming, en van de noodzaak om de belangen van het project elders te verdedigen.",
@@ -459,12 +461,12 @@
         nrCell.textContent = dimensie.nr;
         row.appendChild(nrCell);
 
-        // Naam cel
+        // Naam cel (met toelichting eronder)
         const naamCell = document.createElement('td');
         naamCell.className = 'nldd-table__cell naam-cell';
         naamCell.innerHTML = `
           <strong>${dimensie.naam}</strong>
-          <span class="beschrijving" title="${dimensie.beschrijving.replace(/"/g, '&quot;')}">ℹ️</span>
+          <div class="dimensie-toelichting">${dimensie.beschrijving}</div>
         `;
         row.appendChild(naamCell);
 
