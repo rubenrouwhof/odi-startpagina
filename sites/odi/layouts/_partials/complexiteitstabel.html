@@ -226,15 +226,67 @@
       display: none;
     }
 
+    /* Stijl voor de slider-beschrijving + toggle (even breed als slider) */
+    .slider-description-container {
+      width: 100%;
+      margin-top: 4px;
+    }
     .slider-description {
-      font-size: 0.8rem;
+      font-size: 0.9rem;
       color: var(--text-secondary);
+      padding: 6px 8px;
+      background-color: var(--table-bg-hover);
+      border-radius: 4px;
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+      text-align: center;
+      line-height: 1.3;
+    }
+    .score-toelichting-toggle {
+      cursor: pointer;
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      margin-left: 4px;
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .score-toelichting-toggle:hover {
+      text-decoration: underline;
+    }
+
+    /* Stijl voor de score-toelichtingen (uitschuifbaar) */
+    .score-toelichting {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-top: 6px;
       padding: 8px;
       background-color: var(--table-bg-hover);
       border-radius: 4px;
-      text-align: center;
       border-left: 3px solid var(--primary-color);
+      display: none;
+      line-height: 1.3;
+      text-align: left;
     }
+    .score-toelichting.active {
+      display: block;
+    }
+    .score-toelichting ol {
+      margin: 0;
+      padding-left: 18px;
+    }
+    .score-toelichting li {
+      margin-bottom: 4px;
+    }
+
+    /* Stijl voor de dimensie-toelichting (kleiner lettertype) */
+    .dimensie-toelichting {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      line-height: 1.3;
+    }
+
     .nldd-table input[type="text"] {
       width: 100%;
       padding: 8px;
@@ -251,13 +303,6 @@
     .nldd-table input[type="text"].required-empty {
       border-color: var(--error-color) !important;
       background-color: var(--error-light) !important;
-    }
-    /* Stijl voor de dimensie-toelichting (kleiner lettertype) */
-    .dimensie-toelichting {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      margin-top: 4px;
-      line-height: 1.3;
     }
     .toelichting-aspecten {
       margin-top: 20px;
@@ -508,15 +553,48 @@
         slider.id = `slider-${dimensie.nr}`;
         slider.addEventListener('input', updateSlider);
 
-        // Slider beschrijving
+        // Slider beschrijving + toggle voor score-toelichtingen
+        const sliderDescriptionContainer = document.createElement('div');
+        sliderDescriptionContainer.className = 'slider-description-container';
+
         const sliderDescription = document.createElement('div');
         sliderDescription.className = 'slider-description';
         sliderDescription.id = `slider-desc-${dimensie.nr}`;
         sliderDescription.textContent = 'Maak een keuze';
 
+        // Toggle-icoon voor score-toelichtingen
+        const toggleIcon = document.createElement('span');
+        toggleIcon.className = 'score-toelichting-toggle';
+        toggleIcon.textContent = 'ℹ️';
+        toggleIcon.title = 'Toon score-toelichtingen';
+        toggleIcon.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const scoreToelichting = document.getElementById(`score-toelichting-${dimensie.nr}`);
+          scoreToelichting.classList.toggle('active');
+        });
+
+        // Voeg toggle toe aan de beschrijving
+        sliderDescription.appendChild(toggleIcon);
+        sliderDescriptionContainer.appendChild(sliderDescription);
+
+        // Score-toelichtingen (uitschuifbaar)
+        const scoreToelichting = document.createElement('div');
+        scoreToelichting.className = 'score-toelichting';
+        scoreToelichting.id = `score-toelichting-${dimensie.nr}`;
+
+        // Maak een lijst van score-toelichtingen
+        const scoreList = document.createElement('ol');
+        dimensie.scores.slice(1).forEach((scoreText, index) => {
+          const listItem = document.createElement('li');
+          listItem.innerHTML = `<strong>${index + 1}:</strong> ${scoreText}`;
+          scoreList.appendChild(listItem);
+        });
+        scoreToelichting.appendChild(scoreList);
+        sliderDescriptionContainer.appendChild(scoreToelichting);
+
         sliderContainer.appendChild(sliderLabels);
         sliderContainer.appendChild(slider);
-        sliderContainer.appendChild(sliderDescription);
+        sliderContainer.appendChild(sliderDescriptionContainer);
         sliderCell.appendChild(sliderContainer);
         row.appendChild(sliderCell);
 
@@ -562,6 +640,7 @@
         const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
         const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
         const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
+        const scoreToelichting = document.getElementById(`score-toelichting-${dimensieNr}`);
 
         if (scoreCell) scoreCell.textContent = score === 0 ? '–' : score;
         if (toelichtingInput) validateToelichting({ target: toelichtingInput });
@@ -573,6 +652,10 @@
         const dimensie = dimensies.find(d => d.nr == dimensieNr);
         if (dimensie && sliderDescription) {
           sliderDescription.textContent = score === 0 ? 'Maak een keuze' : dimensie.scores[score];
+          // Toon score-toelichting als er een waarde is geselecteerd
+          if (scoreToelichting) {
+            scoreToelichting.classList.toggle('active', score > 0);
+          }
         }
         berekenTotaalscore();
       }
