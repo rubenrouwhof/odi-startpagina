@@ -45,55 +45,61 @@
       padding: 20px;
       background-color: #fff;
       color: var(--text-color);
+      position: relative;
     }
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #121212;
       }
     }
-    .button-container {
-      margin: 20px 0;
-      display: flex;
-      gap: 10px;
+    .export-container {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
     }
-    .save-button, .load-button {
-      padding: 10px 20px;
+    .export-button {
+      padding: 10px 15px;
       background-color: var(--button-bg);
       color: var(--button-text);
       border: none;
       border-radius: 4px;
-      font-size: 1rem;
       cursor: pointer;
-      transition: background-color 0.3s;
+      font-size: 0.9rem;
+      transition: opacity 0.3s;
     }
-    .save-button:hover, .load-button:hover {
+    .export-button:hover {
       opacity: 0.9;
     }
-    .save-message {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 4px;
+    .export-menu {
       display: none;
-    }
-    .save-message.success {
-      background-color: #d4edda;
-      color: #155724;
-      display: block;
-    }
-    .save-message.error {
-      background-color: #f8d7da;
-      color: #721c24;
-      display: block;
+      position: absolute;
+      right: 0;
+      top: 100%;
+      margin-top: 5px;
+      background-color: white;
+      border: 1px solid var(--table-border);
+      border-radius: 4px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      min-width: 180px;
+      z-index: 1001;
     }
     @media (prefers-color-scheme: dark) {
-      .save-message.success {
-        background-color: #1a3a1a;
-        color: #d4edda;
+      .export-menu {
+        background-color: #2d2d2d;
+        border-color: #404040;
       }
-      .save-message.error {
-        background-color: #491a1d;
-        color: #f8d7da;
-      }
+    }
+    .export-menu.show {
+      display: block;
+    }
+    .export-menu-item {
+      padding: 10px 15px;
+      cursor: pointer;
+      color: var(--text-color);
+    }
+    .export-menu-item:hover {
+      background-color: var(--table-bg-hover);
     }
     .complexiteitstabel-container {
       overflow-x: auto;
@@ -311,10 +317,33 @@
       .slider-cell {
         min-width: 180px;
       }
+      .export-container {
+        top: 10px;
+        right: 10px;
+      }
+    }
+    @media print {
+      .export-container, .export-button, .export-menu, .score-toelichting-toggle, .score-toelichting {
+        display: none !important;
+      }
+      body {
+        padding: 0;
+      }
+      .complexiteitstabel-container {
+        margin: 0;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="export-container">
+    <button id="export-button" class="export-button">Exporteer ▼</button>
+    <div id="export-menu" class="export-menu">
+      <div class="export-menu-item" data-format="csv">Exporteer als CSV</div>
+      <div class="export-menu-item" data-format="md">Exporteer als Markdown</div>
+      <div class="export-menu-item" data-format="pdf">Exporteer als PDF</div>
+    </div>
+  </div>
   <div class="complexiteitstabel-container">
     <table class="nldd-table">
       <thead class="nldd-table__head">
@@ -326,8 +355,7 @@
           <th scope="col" class="nldd-table__header toelichting-header">Toelichting (verplicht bij 3 of 4)</th>
         </tr>
       </thead>
-      <tbody class="nldd-table__body">
-      </tbody>
+      <tbody class="nldd-table__body"></tbody>
       <tfoot class="nldd-table__foot">
         <tr>
           <td colspan="3"><strong>Totaalscore:</strong></td>
@@ -369,8 +397,8 @@
             "Maak een keuze",
             "Het aantal kennisintensieve werkuren is enkele honderden. De geboden technieken en kwaliteitssystemen van de organisatie zijn afdoende voor het project.",
             "Het aantal taken/werkpakketten loopt in de tientallen, kennisintensieve werkuren >1.000, er zijn meerdere deelprojecten met verschillende methoden, instrumenten en technieken.",
-            "Het aantal taken/werkpakketten loopt in de honderden, ‘IT-uitvoering’ werkuren >30.000 en/of kennisintensieve werkuren>6.000, meerdere locaties/sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken.",
-            "Het aantal taken/werkpakketten loopt in de duizendtallen, 'IT-uitvoering’ werkuren >100.000 en/of kennisintensieve werkuren >30.000, meerdere locaties/sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken."
+            "Het aantal taken/werkpakketten loopt in de honderden, 'IT-uitvoering' werkuren >30.000 en/of kennisintensieve werkuren>6.000, meerdere locaties/sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken.",
+            "Het aantal taken/werkpakketten loopt in de duizendtallen, 'IT-uitvoering' werkuren >100.000 en/of kennisintensieve werkuren >30.000, meerdere locaties/sites met verschillende kwaliteitseisen, methoden, instrumenten en technieken."
           ]
         },
         {
@@ -473,33 +501,43 @@
 
       const tbody = document.querySelector('.nldd-table__body');
       const totaalscoreElement = document.getElementById('totaalscore');
+      const exportButton = document.getElementById('export-button');
+      const exportMenu = document.getElementById('export-menu');
 
-      // Initialiseer de tabel
+      // Export-menu logica
+      exportButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        exportMenu.classList.toggle('show');
+      });
+      document.addEventListener('click', function() {
+        exportMenu.classList.remove('show');
+      });
+      exportMenu.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+
+      // Bouw de tabel
       dimensies.forEach(dimensie => {
         const row = document.createElement('tr');
 
-        // Nr. cel
+        // Nr.
         const nrCell = document.createElement('td');
         nrCell.className = 'nldd-table__cell nr-cell';
         nrCell.textContent = dimensie.nr;
         row.appendChild(nrCell);
 
-        // Naam cel (met toelichting eronder)
+        // Naam + beschrijving
         const naamCell = document.createElement('td');
         naamCell.className = 'nldd-table__cell naam-cell';
-        naamCell.innerHTML = `
-          <strong>${dimensie.naam}</strong>
-          <div class="dimensie-toelichting">${dimensie.beschrijving}</div>
-        `;
+        naamCell.innerHTML = `<strong>${dimensie.naam}</strong><div class="dimensie-toelichting">${dimensie.beschrijving}</div>`;
         row.appendChild(naamCell);
 
-        // Slider cel
+        // Slider
         const sliderCell = document.createElement('td');
         sliderCell.className = 'nldd-table__cell slider-cell';
         const sliderContainer = document.createElement('div');
         sliderContainer.className = 'slider-container';
 
-        // Slider labels (1-4)
         const sliderLabels = document.createElement('div');
         sliderLabels.className = 'slider-labels';
         for (let i = 1; i <= 4; i++) {
@@ -518,7 +556,6 @@
           sliderLabels.appendChild(label);
         }
 
-        // Slider input
         const slider = document.createElement('input');
         slider.type = 'range';
         slider.min = '0';
@@ -530,9 +567,9 @@
         slider.id = `slider-${dimensie.nr}`;
         slider.addEventListener('input', updateSlider);
 
-        // Slider beschrijving + toggle
         const sliderDescriptionContainer = document.createElement('div');
         sliderDescriptionContainer.className = 'slider-description-container';
+
         const sliderDescription = document.createElement('div');
         sliderDescription.className = 'slider-description';
         sliderDescription.id = `slider-desc-${dimensie.nr}`;
@@ -551,19 +588,20 @@
         sliderDescription.appendChild(toggleIcon);
         sliderDescriptionContainer.appendChild(sliderDescription);
 
-        // Score-toelichtingen (uitschuifbaar)
         const scoreToelichting = document.createElement('div');
         scoreToelichting.className = 'score-toelichting';
         scoreToelichting.id = `score-toelichting-${dimensie.nr}`;
+
         const scoreList = document.createElement('ul');
         scoreList.id = `score-list-${dimensie.nr}`;
         scoreList.style.listStyleType = 'none';
-        // Voeg alle scores toe (behalve "Maak een keuze")
+
         dimensie.scores.slice(1).forEach((scoreText, index) => {
           const listItem = document.createElement('li');
           listItem.innerHTML = `<strong>${index + 1}:</strong> ${scoreText}`;
           scoreList.appendChild(listItem);
         });
+
         scoreToelichting.appendChild(scoreList);
         sliderDescriptionContainer.appendChild(scoreToelichting);
 
@@ -573,14 +611,14 @@
         sliderCell.appendChild(sliderContainer);
         row.appendChild(sliderCell);
 
-        // Score cel
+        // Score
         const scoreCell = document.createElement('td');
         scoreCell.className = 'nldd-table__cell score-cell';
         scoreCell.id = `score-${dimensie.nr}-waarde`;
         scoreCell.textContent = '–';
         row.appendChild(scoreCell);
 
-        // Toelichting cel
+        // Toelichting
         const toelichtingCell = document.createElement('td');
         toelichtingCell.className = 'nldd-table__cell toelichting-cell';
         const toelichtingInput = document.createElement('input');
@@ -594,21 +632,20 @@
         tbody.appendChild(row);
       });
 
-      // Functie om slider-waarde en bijbehorende tekst bij te werken
+      // Update slider en bijbehorende velden
       function updateSlider(event) {
         const slider = event.target;
         const dimensieNr = slider.dataset.dimensie;
         const sliderValue = parseFloat(slider.value);
         slider.classList.toggle('value-0', sliderValue === 0);
 
-        // Map sliderValue naar score (0, 1, 2, 3, 4)
         let score = 0;
         if (sliderValue > 0) {
           score = Math.round((sliderValue - 12.5) / 25) + 1;
         }
 
         const scoreCell = document.getElementById(`score-${dimensieNr}-waarde`);
-        const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
+        const toelichtingInput = document.querySelector(`input[type="text"][data-dimensie="${dimensieNr}"]`); // ✅ GECORRIGEERD
         const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
         const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
         const scoreToelichting = document.getElementById(`score-toelichting-${dimensieNr}`);
@@ -617,35 +654,28 @@
         if (scoreCell) scoreCell.textContent = score === 0 ? '–' : score;
         if (toelichtingInput) validateToelichting({ target: toelichtingInput });
 
-        // Update actieve label
         sliderLabels.forEach(label => {
           label.classList.toggle('active', parseInt(label.dataset.value) === score);
         });
 
-        // Update slider-beschrijvingstekst
         const dimensie = dimensies.find(d => d.nr == dimensieNr);
         if (dimensie && sliderDescription) {
           sliderDescription.textContent = score === 0 ? 'Maak een keuze' : dimensie.scores[score];
         }
 
-        // Toon/verberg score-toelichting en filter de lijst
         if (scoreToelichting && scoreList) {
-          // Leeg de lijst
           while (scoreList.firstChild) {
             scoreList.removeChild(scoreList.firstChild);
           }
-
           if (score === 0) {
-            // Toon alle scores (1-4) als "Maak een keuze" is geselecteerd
             dimensie.scores.slice(1).forEach((scoreText, index) => {
               const listItem = document.createElement('li');
               listItem.innerHTML = `<strong>${index + 1}:</strong> ${scoreText}`;
               scoreList.appendChild(listItem);
             });
           } else {
-            // Toon alleen de overige scores (niet de geselecteerde) MET hun originele nummers
             dimensie.scores.slice(1).forEach((scoreText, index) => {
-              const scoreNumber = index + 1; // 1, 2, 3, 4
+              const scoreNumber = index + 1;
               if (scoreNumber !== score) {
                 const listItem = document.createElement('li');
                 listItem.innerHTML = `<strong>${scoreNumber}:</strong> ${scoreText}`;
@@ -659,7 +689,6 @@
         berekenTotaalscore();
       }
 
-      // Functie om toelichting-veld te valideren
       function validateToelichting(event) {
         const input = event.target;
         const dimensieNr = input.dataset.dimensie;
@@ -678,7 +707,6 @@
         }
       }
 
-      // Functie om totaalscore te berekenen
       function berekenTotaalscore() {
         let totaal = 0;
         dimensies.forEach(dimensie => {
@@ -694,6 +722,136 @@
         });
         if (totaalscoreElement) totaalscoreElement.textContent = totaal;
       }
+
+      // ===== EXPORT FUNCTIES (DEFINITIEF GECORRIGEERD) =====
+      function getExportData() {
+        const data = [];
+        dimensies.forEach(dimensie => {
+          const slider = document.getElementById(`slider-${dimensie.nr}`);
+          const toelichtingInput = document.querySelector(`input[type="text"][data-dimensie="${dimensie.nr}"]`); // ✅ GECORRIGEERD
+          if (slider) {
+            const sliderValue = parseFloat(slider.value);
+            let score = 0;
+            if (sliderValue > 0) {
+              score = Math.round((sliderValue - 12.5) / 25) + 1;
+            }
+            const toelichting = toelichtingInput ? toelichtingInput.value : '';
+            const scoreText = score === 0 ? '-' : dimensie.scores[score];
+            data.push({
+              nr: dimensie.nr,
+              naam: dimensie.naam,
+              score: score === 0 ? '-' : score,
+              scoreText: scoreText,
+              toelichting: toelichting
+            });
+          }
+        });
+        const totaalscore = totaalscoreElement ? totaalscoreElement.textContent : '0';
+        return { data, totaalscore };
+      }
+
+      function exportCSV() {
+        const { data, totaalscore } = getExportData();
+        let csv = 'Nr.,Complexiteitsdimensie,Score,Beschrijving,Toelichting\n';
+        data.forEach(item => {
+          const escape = (text) => {
+            if (typeof text !== 'string') return text;
+            if (text.includes('"') || text.includes(',') || text.includes('\n')) {
+              return `"${text.replace(/"/g, '""')}"`;
+            }
+            return text;
+          };
+          csv += `${item.nr},${escape(item.naam)},${item.score},${escape(item.scoreText)},${escape(item.toelichting)}\n`;
+        });
+        csv += `,"Totaalscore",,,${totaalscore}\n`;
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'complexiteitscore.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        exportMenu.classList.remove('show');
+      }
+
+      function exportMD() {
+        const { data, totaalscore } = getExportData();
+        let md = '# Complexiteitscore\n\n';
+        md += '| Nr. | Complexiteitsdimensie | Score | Beschrijving | Toelichting |\n';
+        md += '|-----|------------------------|-------|---------------|-------------|\n';
+        data.forEach(item => {
+          md += `| ${item.nr} | ${item.naam} | ${item.score} | ${item.scoreText} | ${item.toelichting} |\n`;
+        });
+        md += `\n**Totaalscore:** ${totaalscore}\n`;
+        const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'complexiteitscore.md';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        exportMenu.classList.remove('show');
+      }
+
+      function exportPDF() {
+        const { data, totaalscore } = getExportData();
+        const printArea = document.createElement('div');
+        printArea.id = 'print-area';
+        let tableHTML = `
+          <h1 style="text-align: center; margin-bottom: 20px;">Complexiteitscore</h1>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+            <thead>
+              <tr style="background-color: #f2f2f2;">
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Nr.</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Complexiteitsdimensie</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Score</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Beschrijving</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Toelichting</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+        data.forEach(item => {
+          tableHTML += `
+            <tr>
+              <td style="padding: 10px; border: 1px solid #ddd;">${item.nr}</td>
+              <td style="padding: 10px; border: 1px solid #ddd;">${item.naam}</td>
+              <td style="padding: 10px; border: 1px solid #ddd;">${item.score}</td>
+              <td style="padding: 10px; border: 1px solid #ddd;">${item.scoreText}</td>
+              <td style="padding: 10px; border: 1px solid #ddd;">${item.toelichting}</td>
+            </tr>
+          `;
+        });
+        tableHTML += `
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="4" style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Totaalscore:</td>
+                <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">${totaalscore}</td>
+              </tr>
+            </tfoot>
+          </table>
+        `;
+        printArea.innerHTML = tableHTML;
+        document.body.appendChild(printArea);
+        window.print();
+        setTimeout(() => {
+          document.body.removeChild(printArea);
+          exportMenu.classList.remove('show');
+        }, 100);
+      }
+
+      // Koppel export-functies aan menu-items
+      document.querySelectorAll('.export-menu-item').forEach(item => {
+        item.addEventListener('click', function() {
+          const format = this.dataset.format;
+          if (format === 'csv') exportCSV();
+          else if (format === 'md') exportMD();
+          else if (format === 'pdf') exportPDF();
+        });
+      });
     });
   </script>
 </body>
