@@ -329,11 +329,6 @@
   </style>
 </head>
 <body>
-  <div class="button-container">
-    <button class="save-button" id="saveButton">Opslaan</button>
-    <button class="load-button" id="loadButton">Laden</button>
-  </div>
-  <div class="save-message" id="saveMessage"></div>
   <div class="complexiteitstabel-container">
     <table class="nldd-table">
       <thead class="nldd-table__head">
@@ -492,9 +487,7 @@
       ];
 
       const tbody = document.querySelector('.nldd-table__body');
-      const saveButton = document.getElementById('saveButton');
-      const loadButton = document.getElementById('loadButton');
-      const saveMessage = document.getElementById('saveMessage');
+      const totaalscoreElement = document.getElementById('totaalscore');
 
       // Initialiseer de tabel
       dimensies.forEach(dimensie => {
@@ -533,7 +526,6 @@
           label.addEventListener('click', function() {
             const slider = document.getElementById(`slider-${dimensie.nr}`);
             if (slider) {
-              // Map 1→12.5, 2→37.5, 3→62.5, 4→87.5
               slider.value = (i - 1) * 25 + 12.5;
               updateSlider({ target: slider });
             }
@@ -619,11 +611,6 @@
         tbody.appendChild(row);
       });
 
-      // Laad opgeslagen gegevens bij start
-      loadSavedData();
-      saveButton.addEventListener('click', saveData);
-      loadButton.addEventListener('click', loadSavedData);
-
       function updateSlider(event) {
         const slider = event.target;
         const dimensieNr = slider.dataset.dimensie;
@@ -640,7 +627,7 @@
         const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensieNr}"]`);
         const sliderDescription = document.getElementById(`slider-desc-${dimensieNr}`);
         const sliderLabels = document.querySelectorAll(`.slider-label[data-dimensie="${dimensieNr}"]`);
-        const scoreToelichting = document.getElementById(`score-toelichting-${dimensieNr}`);
+        const scoreToelichting = document.getElementById(`score-toelichting-${dimensie.nr}`);
 
         if (scoreCell) scoreCell.textContent = score === 0 ? '–' : score;
         if (toelichtingInput) validateToelichting({ target: toelichtingInput });
@@ -691,91 +678,7 @@
             if (score > 0) totaal += score;
           }
         });
-        const totaalscoreElement = document.getElementById('totaalscore');
         if (totaalscoreElement) totaalscoreElement.textContent = totaal;
-      }
-
-      function saveData() {
-        let hasErrors = false;
-        dimensies.forEach(dimensie => {
-          const slider = document.getElementById(`slider-${dimensie.nr}`);
-          const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensie.nr}"]`);
-          if (slider && toelichtingInput) {
-            const sliderValue = parseFloat(slider.value);
-            let score = 0;
-            if (sliderValue > 0) {
-              score = Math.round((sliderValue - 12.5) / 25) + 1;
-            }
-            if (score >= 3 && toelichtingInput.value.trim() === '') {
-              hasErrors = true;
-              toelichtingInput.classList.add('required-empty');
-            }
-          }
-        });
-        if (hasErrors) {
-          showMessage('Vul a.u.b. alle verplichte toelichtingen in (bij score 3 of 4).', 'error');
-          return;
-        }
-
-        const data = {
-          timestamp: new Date().toISOString(),
-          projectnaam: prompt("Voer de projectnaam in:", "Mijn Project") || "Onbekend project",
-          scores: [],
-          totaalscore: document.getElementById('totaalscore').textContent
-        };
-
-        dimensies.forEach(dimensie => {
-          const slider = document.getElementById(`slider-${dimensie.nr}`);
-          const toelichtingInput = document.querySelector(`input[data-dimensie="${dimensie.nr}"]`);
-          const sliderValue = slider ? parseFloat(slider.value) : 0;
-          let score = 0;
-          if (sliderValue > 0) {
-            score = Math.round((sliderValue - 12.5) / 25) + 1;
-          }
-          data.scores.push({
-            nr: dimensie.nr,
-            naam: dimensie.naam,
-            score: score,
-            toelichting: toelichtingInput ? toelichtingInput.value : ''
-          });
-        });
-
-        try {
-          localStorage.setItem('complexiteitscoreData', JSON.stringify(data));
-          showMessage(`Gegevens voor "${data.projectnaam}" succesvol opgeslagen in je browser!`, 'success');
-        } catch (e) {
-          showMessage('Fout bij opslaan: ' + e.message, 'error');
-        }
-      }
-
-      function loadSavedData() {
-        try {
-          const savedData = localStorage.getItem('complexiteitscoreData');
-          if (savedData) {
-            const data = JSON.parse(savedData);
-            data.scores.forEach(score => {
-              const slider = document.getElementById(`slider-${score.nr}`);
-              const toelichtingInput = document.querySelector(`input[data-dimensie="${score.nr}"]`);
-              if (slider) {
-                // Map score (1-4) naar sliderValue (12.5, 37.5, 62.5, 87.5)
-                const sliderValue = score.score > 0 ? (score.score - 1) * 25 + 12.5 : 0;
-                slider.value = sliderValue;
-                updateSlider({ target: slider });
-              }
-              if (toelichtingInput) {
-                toelichtingInput.value = score.toelichting;
-              }
-            });
-            showMessage(`Gegevens voor "${data.projectnaam}" geladen.`, 'success');
-          }
-        } catch (e) {
-          showMessage('Fout bij laden opgeslagen gegevens: ' + e.message, 'error');
-        }
-      }
-
-      function showMessage(message, type) {
-        saveMessage.textContent = message;
-        saveMessage.className = `save-message ${type}`;
       }
     });
   </script>
